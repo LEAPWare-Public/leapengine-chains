@@ -1,0 +1,68 @@
+name: fetch-chains
+on:
+  workflow_dispatch:
+    inputs:
+      tickers:
+        description: 'Comma-separated tickers'
+        required: true
+        default: 'SILJ,SCHD,EPD,AMLP'
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch and filter chains
+        env:
+          TICKERS: ${{ github.event.inputs.tickers }}
+        run: |
+          python3 - << 'PY'
+          import json, urllib.request, os, datetime
+          tickers = os.environ.get('TICKERS','SILJ').split(',')
+          os.makedirs('data', exist_ok=True)
+          today = datetime.date.today()
+          for t in tickers:
+              t = t.strip().upper()
+              if not t: continue
+              url = f"https://cdn.cboe.com/api/global/delayed_quotes/options/{t}.json"
+              req = urllib.request.Request(url, headers={'User-Agent':'Mozilla/5.0'})
+              try:
+                  raw = json.load(urllib.request.urlopen(req, timeout=30))
+              except Exception as e:
+                  json.dump({'ticker':t,'error':str(e)}, open(f'data/{t}.json','w'))
+                  continue
+              d = raw.get('data', {})
+              spot = d.get('current_price') or d.get('close')
+              out = {'ticker': t,
+                     'feed_timestamp': raw.get('timestamp') or d.get('last_trade_time'),
+                     'spot': spot,
+                     'prev_close': d.get('prev_day_close'),
+                     'options': []}
+              for o in d.get('options', []):
+                  sym = o.get('option','')
+                  core = sym[len(t):]
+                  try:
+                      expd = datetime.date(int('20'+core[0:2]), int(core[2:4]), int(core[4:6]))
+                      cp = core[6]
+                      strike = int(core[7:]) / 1000.0
+                  except Exception:
+                      continue
+                  dte = (expd - today).days
+                  if not spot: continue
+                  if 0 < dte <= 75 and 0.70*spot <= strike <= 1.40*spot:
+                      out['options'].append({
+                          'type': cp, 'exp': expd.isoformat(), 'dte': dte, 'strike': strike,
+                          'bid': o.get('bid'), 'ask': o.get('ask'),
+                          'oi': o.get('open_interest'), 'volume': o.get('volume'),
+                          'iv': o.get('iv'), 'delta': o.get('delta'),
+                          'last_trade_time': o.get('last_trade_time')})
+              json.dump(out, open(f'data/{t}.json','w'))
+          PY
+      - name: Commit results
+        run: |
+          git config user.name "chain-bot"
+          git config user.email "chain-bot@users.noreply.github.com"
+          git add data/
+          git commit -m "chain snapshot $(date -u +%FT%TZ)" || echo "no changes"
+          git push
