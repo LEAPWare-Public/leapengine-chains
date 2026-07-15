@@ -5,7 +5,7 @@ on:
       tickers:
         description: 'Comma-separated tickers'
         required: true
-        default: 'SILJ,SCHD,EPD,AMLP'
+        default: 'AMZN,SILJ,SCHD,EPD,AMLP'
 permissions:
   contents: write
 jobs:
