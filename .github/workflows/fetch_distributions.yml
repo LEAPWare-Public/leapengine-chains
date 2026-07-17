@@ -1,0 +1,40 @@
+name: fetch_distributions
+
+# Weekly per-share distribution fetch. Runs in a PUBLIC repo -> unlimited free
+# Actions minutes, independent of the private-repo minute cap. Commits only public
+# per-share data (no holdings, no dollars).
+
+on:
+  schedule:
+    - cron: "15 13 * * 1"   # Mondays ~09:15 ET
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-distributions
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet yfinance
+      - name: Fetch per-share distributions
+        run: python scripts/fetch_distributions.py --days 120
+      - name: Commit
+        run: |
+          git config user.name  "leapengine-bot"
+          git config user.email "leapengine-bot@users.noreply.github.com"
+          git add data/DISTRIBUTIONS.json
+          if git diff --cached --quiet; then
+            echo "No distribution changes this run."
+          else
+            git commit -m "chore: weekly distribution refresh ($(date -u +%Y-%m-%d))"
+            git push
+          fi
