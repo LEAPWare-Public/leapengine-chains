@@ -1,7 +1,7 @@
 {
  "ticker": "VICI",
  "resolved_symbol": "VICI",
- "fetched_at_utc": "2026-07-20T17:45:27Z",
+ "fetched_at_utc": "2026-07-20T18:08:08Z",
  "cboe_timestamp": "2026-07-20 14:27:40",
  "spot": 26.84,
  "prev_close": 26.87,
@@ -9,7 +9,7 @@
   "contracts": 32,
   "with_greeks": 32,
   "with_bids": 21,
-  "cboe_ts_age_hours": 3.3,
+  "cboe_ts_age_hours": 3.67,
   "flags": [],
   "tradable": true,
   "blocked_by": []
@@ -431,5 +431,6 @@
    "delta": -0.9922,
    "last_trade_time": null
   }
- ]
+ ],
+ "source": "cboe"
 }
