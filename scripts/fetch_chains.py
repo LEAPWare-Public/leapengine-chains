@@ -9,7 +9,7 @@ v2 - Jul-20-2026. Fixes the "phantom staleness" defect:
   frozen" and refused to trade names whose data was in fact current.
   v2 records fetched_at_utc explicitly and emits machine-readable quality flags.
 """
-import json, os, sys, time, datetime, urllib.request, urllib.error
+import json, math, os, sys, time, datetime, urllib.request, urllib.error
 try:
     from zoneinfo import ZoneInfo
     ET = ZoneInfo("America/New_York")
@@ -42,6 +42,95 @@ def market_date(dt_utc):
 UA = {"User-Agent": "Mozilla/5.0 (LEAPEngine chain-bot)"}
 BASE = "https://cdn.cboe.com/api/global/delayed_quotes/options/{}.json"
 TIMEOUT, RETRIES = 30, 3
+STALE_HOURS = float(os.environ.get("STALE_HOURS", "6"))   # CBOE age that triggers fallback
+RISK_FREE = float(os.environ.get("RISK_FREE", "0.04"))
+
+
+def _ncdf(x):
+    return 0.5 * (1.0 + math.erf(x / math.sqrt(2.0)))
+
+
+def bs_delta(spot, strike, dte_days, iv, cp, q=0.0, r=RISK_FREE):
+    """Black-Scholes delta. yfinance supplies IV but no greeks; without delta the
+    A16 band cannot be applied and the whole chain is unusable. q = continuous
+    dividend yield, material on 5%-yielding REITs."""
+    try:
+        if not (spot and strike and iv) or dte_days is None or dte_days <= 0 or iv <= 0:
+            return None
+        T = dte_days / 365.0
+        d1 = (math.log(spot / strike) + (r - q + 0.5 * iv * iv) * T) / (iv * math.sqrt(T))
+        d = math.exp(-q * T) * _ncdf(d1)
+        return round(d if cp == "C" else d - math.exp(-q * T), 4)
+    except (ValueError, ZeroDivisionError, OverflowError):
+        return None
+
+
+def load_div_yields():
+    """Use our own YIELDS.json for q. Absent -> q=0 (slightly overstates call delta
+    on high yielders, which is the conservative direction for covered calls)."""
+    try:
+        with open("data/YIELDS.json") as fh:
+            return {k: (v.get("ttm_yield_pct") or 0) / 100.0
+                    for k, v in json.load(fh)["tickers"].items()}
+    except Exception:  # noqa: BLE001
+        return {}
+
+
+def fetch_yf(ticker, fetched_at, div_yields=None):
+    """Fallback source. Returns a payload shaped like build() output."""
+    import yfinance as yf
+    tk = yf.Ticker(ticker)
+    fi = getattr(tk, "fast_info", None) or {}
+    spot = _num(fi.get("last_price") or fi.get("lastPrice"))
+    prev = _num(fi.get("previous_close") or fi.get("previousClose"))
+    if not spot:
+        raise RuntimeError("yfinance: no spot")
+    q = (div_yields or {}).get(ticker, 0.0)
+    today = market_date(fetched_at)
+    out = {"ticker": ticker, "resolved_symbol": ticker, "source": "yfinance",
+           "fetched_at_utc": fetched_at.isoformat(timespec="seconds") + "Z",
+           "cboe_timestamp": None, "spot": spot, "prev_close": prev,
+           "quality": {}, "options": []}
+    greeks = bids = 0
+    for exp in (tk.options or []):
+        expd = datetime.date.fromisoformat(exp)
+        dte = (expd - today).days
+        if not (0 < dte <= 75):
+            continue
+        ch = tk.option_chain(exp)
+        for cp, frame in (("C", ch.calls), ("P", ch.puts)):
+            for row in frame.itertuples():
+                strike = _num(getattr(row, "strike", None))
+                if not strike or not (0.70 * spot <= strike <= 1.40 * spot):
+                    continue
+                iv = _num(getattr(row, "impliedVolatility", None))
+                bid = _num(getattr(row, "bid", None))
+                delta = bs_delta(spot, strike, dte, iv, cp, q=q)
+                if delta is not None and delta != 0:
+                    greeks += 1
+                if bid is not None and bid > 0:
+                    bids += 1
+                out["options"].append({
+                    "type": cp, "exp": exp, "dte": dte, "strike": strike,
+                    "bid": bid, "ask": _num(getattr(row, "ask", None)),
+                    "oi": _num(getattr(row, "openInterest", None)),
+                    "volume": _num(getattr(row, "volume", None)),
+                    "iv": iv, "delta": delta, "delta_source": "black_scholes",
+                    "last_trade_time": None})
+    n = len(out["options"])
+    flags = ["SOURCE_YFINANCE", "DELTA_COMPUTED"]
+    if n == 0:
+        flags.append("NO_CONTRACTS")
+    if greeks == 0 and n:
+        flags.append("NO_GREEKS")
+    if bids == 0 and n:
+        flags.append("NO_BIDS")
+    out["quality"] = {"contracts": n, "with_greeks": greeks, "with_bids": bids,
+                      "cboe_ts_age_hours": None, "flags": flags,
+                      "tradable": not (BLOCKING_FLAGS & set(flags)),
+                      "blocked_by": sorted(BLOCKING_FLAGS & set(flags)),
+                      "dividend_yield_used": q}
+    return out
 
 
 def fetch(symbol):
@@ -168,17 +257,45 @@ def main():
     os.makedirs("data", exist_ok=True)
     fetched_at = datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)
     report = {"run_utc": fetched_at.isoformat(timespec="seconds") + "Z", "tickers": {}}
+    div_yields = load_div_yields()
 
     for t in tickers:
         path = f"data/{t}.json"
         try:
-            raw, resolved = fetch(t)
-            out = build(t, raw, resolved, fetched_at)
+            out = None
+            cboe_err = None
+            try:
+                raw, resolved = fetch(t)
+                out = build(t, raw, resolved, fetched_at)
+                out["source"] = "cboe"
+            except Exception as e:  # noqa: BLE001
+                cboe_err = str(e)
+
+            age = (out or {}).get("quality", {}).get("cboe_ts_age_hours")
+            need_fb = (out is None
+                       or not out["quality"]["tradable"]
+                       or (age is not None and age > STALE_HOURS))
+            if need_fb:
+                try:
+                    alt = fetch_yf(t, fetched_at, div_yields)
+                    if alt["quality"]["contracts"]:
+                        if out is not None:
+                            alt["cboe_timestamp"] = out.get("cboe_timestamp")
+                            alt["quality"]["flags"].append("CBOE_FALLBACK_USED")
+                            alt["quality"]["cboe_age_at_fallback"] = age
+                        out = alt
+                except Exception as e:  # noqa: BLE001
+                    print(f"{t}: fallback failed - {e}", file=sys.stderr)
+                    if out is not None:
+                        out["quality"]["flags"].append("FALLBACK_FAILED")
+            if out is None:
+                raise RuntimeError(cboe_err or "no source available")
             json.dump(out, open(path, "w"), indent=1)
             if os.path.exists(f"data/{t}.error.json"):
                 os.remove(f"data/{t}.error.json")
-            report["tickers"][t] = out["quality"]
-            print(f"{t}: {out['quality']['contracts']} contracts, flags={out['quality']['flags']}")
+            report["tickers"][t] = dict(out["quality"], source=out.get("source", "cboe"))
+            print(f"{t}: {out['quality']['contracts']} contracts via "
+                  f"{out.get('source','cboe')}, flags={out['quality']['flags']}")
         except Exception as e:  # noqa: BLE001
             # NEVER clobber last-known-good data with an error stub.
             json.dump({"ticker": t, "fetched_at_utc": fetched_at.isoformat() + "Z",
