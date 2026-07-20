@@ -2,9 +2,9 @@
  "ticker": "PFFA",
  "resolved_symbol": "PFFA",
  "source": "yfinance",
- "fetched_at_utc": "2026-07-20T18:08:08Z",
+ "fetched_at_utc": "2026-07-20T19:11:02Z",
  "cboe_timestamp": "2026-07-19 05:07:09",
- "spot": 20.665000915527344,
+ "spot": 20.655000686645508,
  "prev_close": 20.9001,
  "quality": {
   "contracts": 17,
@@ -19,7 +19,7 @@
   "tradable": true,
   "blocked_by": [],
   "dividend_yield_used": 0.09961,
-  "cboe_age_at_fallback": 37.02
+  "cboe_age_at_fallback": 38.06
  },
  "options": [
   {
@@ -31,8 +31,8 @@
    "ask": 0.05,
    "oi": 63.0,
    "volume": 180.0,
-   "iv": 0.06641558593750001,
-   "delta": 0.1403,
+   "iv": 0.06836869140625002,
+   "delta": 0.1419,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -45,8 +45,8 @@
    "ask": 0.05,
    "oi": 10.0,
    "volume": 1.0,
-   "iv": 0.16309430664062502,
-   "delta": 0.083,
+   "iv": 0.16407085937500002,
+   "delta": 0.0828,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -59,8 +59,8 @@
    "ask": 0.1,
    "oi": 37.0,
    "volume": 23.0,
-   "iv": 0.13575083007812502,
-   "delta": -0.2387,
+   "iv": 0.13477427734375003,
+   "delta": -0.2409,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -73,8 +73,8 @@
    "ask": 0.5,
    "oi": 99.0,
    "volume": 2.0,
-   "iv": 0.1211025390625,
-   "delta": -0.7115,
+   "iv": 0.118172880859375,
+   "delta": -0.7212,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -87,8 +87,8 @@
    "ask": 2.2,
    "oi": 1.0,
    "volume": NaN,
-   "iv": 0.561527822265625,
-   "delta": -0.6219,
+   "iv": 0.5585981640625001,
+   "delta": -0.6239,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -101,8 +101,8 @@
    "ask": 1.7,
    "oi": 0.0,
    "volume": 9.0,
-   "iv": 0.40479110839843746,
-   "delta": 0.5782,
+   "iv": 0.4067442138671875,
+   "delta": 0.5769,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -115,8 +115,8 @@
    "ask": 0.25,
    "oi": 128.0,
    "volume": 1.0,
-   "iv": 0.116219775390625,
-   "delta": 0.2947,
+   "iv": 0.117196328125,
+   "delta": 0.2928,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -128,8 +128,8 @@
    "bid": 0.0,
    "ask": 0.1,
    "oi": 281.0,
-   "volume": 1.0,
-   "iv": 0.147469462890625,
+   "volume": 2.0,
+   "iv": 0.148446015625,
    "delta": 0.1169,
    "delta_source": "black_scholes",
    "last_trade_time": null
@@ -143,8 +143,8 @@
    "ask": 0.85,
    "oi": 42.0,
    "volume": 1.0,
-   "iv": 0.5009815527343751,
-   "delta": 0.3127,
+   "iv": 0.5019581054687501,
+   "delta": 0.3123,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -157,8 +157,8 @@
    "ask": 0.35,
    "oi": 40.0,
    "volume": 3.0,
-   "iv": 0.397466962890625,
-   "delta": 0.1788,
+   "iv": 0.398443515625,
+   "delta": 0.1787,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -171,8 +171,8 @@
    "ask": 0.5,
    "oi": 3.0,
    "volume": NaN,
-   "iv": 0.46484910156250003,
-   "delta": -0.2157,
+   "iv": 0.4643608251953125,
+   "delta": -0.2162,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -185,8 +185,8 @@
    "ask": 1.0,
    "oi": 72.0,
    "volume": 1.0,
-   "iv": 0.5283250292968751,
-   "delta": -0.3198,
+   "iv": 0.5273484765625001,
+   "delta": -0.3205,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -199,8 +199,8 @@
    "ask": 0.25,
    "oi": 259.0,
    "volume": 1.0,
-   "iv": 0.15528188476562502,
-   "delta": -0.3407,
+   "iv": 0.15430533203125002,
+   "delta": -0.3427,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -213,8 +213,8 @@
    "ask": 0.65,
    "oi": 64.0,
    "volume": 1.0,
-   "iv": 0.13672738281250002,
-   "delta": -0.6588,
+   "iv": 0.13477427734375003,
+   "delta": -0.6645,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -227,8 +227,8 @@
    "ask": 2.3,
    "oi": 20.0,
    "volume": 1.0,
-   "iv": 0.44385321777343745,
-   "delta": -0.6125,
+   "iv": 0.4419001123046875,
+   "delta": -0.6143,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -241,8 +241,8 @@
    "ask": 3.3,
    "oi": 7.0,
    "volume": 2.0,
-   "iv": 0.5380905566406251,
-   "delta": -0.6543,
+   "iv": 0.5361374511718751,
+   "delta": -0.656,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -255,8 +255,8 @@
    "ask": 5.3,
    "oi": 95.0,
    "volume": 2.0,
-   "iv": 0.6953155468750001,
-   "delta": -0.7038,
+   "iv": 0.6928741650390625,
+   "delta": -0.7054,
    "delta_source": "black_scholes",
    "last_trade_time": null
   }

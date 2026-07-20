@@ -2,9 +2,9 @@
  "ticker": "AHRT",
  "resolved_symbol": "AHRT",
  "source": "yfinance",
- "fetched_at_utc": "2026-07-20T18:08:08Z",
+ "fetched_at_utc": "2026-07-20T19:11:02Z",
  "cboe_timestamp": "2026-07-17 12:35:33",
- "spot": 6.994999885559082,
+ "spot": 7.034999847412109,
  "prev_close": 7.1,
  "quality": {
   "contracts": 4,
@@ -19,7 +19,7 @@
   "tradable": true,
   "blocked_by": [],
   "dividend_yield_used": 0.08023,
-  "cboe_age_at_fallback": 77.54
+  "cboe_age_at_fallback": 78.59
  },
  "options": [
   {
@@ -31,8 +31,8 @@
    "ask": 2.55,
    "oi": 66.0,
    "volume": 1.0,
-   "iv": 1.15234798828125,
-   "delta": 0.8676,
+   "iv": 1.0703171484375003,
+   "delta": 0.8834,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -45,8 +45,8 @@
    "ask": 0.1,
    "oi": 1421.0,
    "volume": 15.0,
-   "iv": 0.32813171874999997,
-   "delta": 0.2387,
+   "iv": 0.31250687499999996,
+   "delta": 0.2454,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -59,8 +59,8 @@
    "ask": 0.2,
    "oi": 123.0,
    "volume": 50.0,
-   "iv": 0.9531254687499999,
-   "delta": -0.093,
+   "iv": 0.9609378906249999,
+   "delta": -0.0911,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -73,8 +73,8 @@
    "ask": 0.6,
    "oi": 408.0,
    "volume": 3.0,
-   "iv": 0.32031929687499994,
-   "delta": -0.7603,
+   "iv": 0.36133451171875,
+   "delta": -0.7132,
    "delta_source": "black_scholes",
    "last_trade_time": null
   }

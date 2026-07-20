@@ -2,9 +2,9 @@
  "ticker": "CTRE",
  "resolved_symbol": "CTRE",
  "source": "yfinance",
- "fetched_at_utc": "2026-07-20T18:08:08Z",
+ "fetched_at_utc": "2026-07-20T19:11:02Z",
  "cboe_timestamp": "2026-07-17 23:12:04",
- "spot": 42.47999954223633,
+ "spot": 42.209999084472656,
  "prev_close": 43.0,
  "quality": {
   "contracts": 14,
@@ -19,7 +19,7 @@
   "tradable": true,
   "blocked_by": [],
   "dividend_yield_used": 0.03421,
-  "cboe_age_at_fallback": 66.93
+  "cboe_age_at_fallback": 67.98
  },
  "options": [
   {
@@ -31,8 +31,8 @@
    "ask": 5.9,
    "oi": 8.0,
    "volume": 2.0,
-   "iv": 0.5668988623046876,
-   "delta": 0.7943,
+   "iv": 0.6225623681640625,
+   "delta": 0.7671,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -45,8 +45,8 @@
    "ask": 3.9,
    "oi": 21.0,
    "volume": 7.0,
-   "iv": 0.4985401708984375,
-   "delta": 0.684,
+   "iv": 0.5380905566406251,
+   "delta": 0.6609,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -58,9 +58,9 @@
    "bid": 1.2,
    "ask": 1.7,
    "oi": 62.0,
-   "volume": 2.0,
-   "iv": 0.3354558642578125,
-   "delta": 0.5184,
+   "volume": 3.0,
+   "iv": 0.36255520263671875,
+   "delta": 0.4964,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -72,9 +72,9 @@
    "bid": 0.55,
    "ask": 0.6,
    "oi": 985.0,
-   "volume": 146.0,
-   "iv": 0.29444064941406245,
-   "delta": 0.2696,
+   "volume": 158.0,
+   "iv": 0.31153032226562494,
+   "delta": 0.2596,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -87,8 +87,8 @@
    "ask": 0.35,
    "oi": 55.0,
    "volume": 25.0,
-   "iv": 0.3501041552734374,
-   "delta": 0.1532,
+   "iv": 0.36377589355468753,
+   "delta": 0.1493,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -101,8 +101,8 @@
    "ask": 0.55,
    "oi": 3.0,
    "volume": 1.0,
-   "iv": 0.7949239257812499,
-   "delta": -0.0549,
+   "iv": 0.7841818457031251,
+   "delta": -0.0559,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -115,8 +115,8 @@
    "ask": 0.6,
    "oi": 2.0,
    "volume": NaN,
-   "iv": 0.659183095703125,
-   "delta": -0.0703,
+   "iv": 0.648441015625,
+   "delta": -0.0719,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -129,8 +129,8 @@
    "ask": 0.6,
    "oi": 2.0,
    "volume": 1.0,
-   "iv": 0.514653291015625,
-   "delta": -0.0882,
+   "iv": 0.5029346582031251,
+   "delta": -0.0906,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -143,8 +143,8 @@
    "ask": 0.35,
    "oi": 29.0,
    "volume": 2.0,
-   "iv": 0.39160764648437496,
-   "delta": -0.1272,
+   "iv": 0.3789124609375,
+   "delta": -0.132,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -157,8 +157,8 @@
    "ask": 0.9,
    "oi": 96.0,
    "volume": 2.0,
-   "iv": 0.38184211914062494,
-   "delta": -0.2757,
+   "iv": 0.36377589355468753,
+   "delta": -0.2876,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -171,8 +171,8 @@
    "ask": 1.85,
    "oi": 2.0,
    "volume": NaN,
-   "iv": 0.36133451171875,
-   "delta": -0.4771,
+   "iv": 0.334967587890625,
+   "delta": -0.5042,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -185,8 +185,8 @@
    "ask": 5.6,
    "oi": 0.0,
    "volume": NaN,
-   "iv": 0.4184628466796875,
-   "delta": -0.7959,
+   "iv": 0.3505924316406249,
+   "delta": -0.8575,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -195,12 +195,12 @@
    "exp": "2026-08-21",
    "dte": 32,
    "strike": 50.0,
-   "bid": 6.6,
+   "bid": 6.5,
    "ask": 8.8,
    "oi": 0.0,
    "volume": NaN,
-   "iv": 0.7158231542968749,
-   "delta": -0.7433,
+   "iv": 0.6645541357421877,
+   "delta": -0.774,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -213,8 +213,8 @@
    "ask": 1.55,
    "oi": 3.0,
    "volume": 10.0,
-   "iv": 0.3676821044921875,
-   "delta": 0.3778,
+   "iv": 0.3830628100585937,
+   "delta": 0.3692,
    "delta_source": "black_scholes",
    "last_trade_time": null
   }

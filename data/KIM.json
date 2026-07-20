@@ -2,9 +2,9 @@
  "ticker": "KIM",
  "resolved_symbol": "KIM",
  "source": "yfinance",
- "fetched_at_utc": "2026-07-20T18:08:08Z",
+ "fetched_at_utc": "2026-07-20T19:11:02Z",
  "cboe_timestamp": "2026-07-17 01:09:36",
- "spot": 26.09000015258789,
+ "spot": 25.959999084472656,
  "prev_close": 26.0,
  "quality": {
   "contracts": 9,
@@ -19,7 +19,7 @@
   "tradable": true,
   "blocked_by": [],
   "dividend_yield_used": 0.03956,
-  "cboe_age_at_fallback": 88.98
+  "cboe_age_at_fallback": 90.02
  },
  "options": [
   {
@@ -31,8 +31,8 @@
    "ask": 7.0,
    "oi": 1.0,
    "volume": NaN,
-   "iv": 0.6777375976562501,
-   "delta": 0.9198,
+   "iv": 0.7685570019531252,
+   "delta": 0.8931,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -45,8 +45,8 @@
    "ask": 4.4,
    "oi": 2.0,
    "volume": 2.0,
-   "iv": 0.7382838671874999,
-   "delta": 0.7815,
+   "iv": 0.5048877636718749,
+   "delta": 0.846,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -56,11 +56,11 @@
    "dte": 32,
    "strike": 25.0,
    "bid": 1.35,
-   "ask": 1.5,
+   "ask": 1.6,
    "oi": 79.0,
-   "volume": 1.0,
-   "iv": 0.27637442382812494,
-   "delta": 0.7108,
+   "volume": 2.0,
+   "iv": 0.3437565625,
+   "delta": 0.661,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -73,8 +73,8 @@
    "ask": 0.1,
    "oi": 39.0,
    "volume": 11.0,
-   "iv": 0.33008482421874996,
-   "delta": 0.0836,
+   "iv": 0.3398503515625,
+   "delta": 0.0825,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -87,8 +87,8 @@
    "ask": 0.2,
    "oi": 8.0,
    "volume": 2.0,
-   "iv": 0.56836369140625,
-   "delta": -0.0479,
+   "iv": 0.5585981640625001,
+   "delta": -0.0483,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -101,8 +101,8 @@
    "ask": 0.4,
    "oi": 8.0,
    "volume": 1.0,
-   "iv": 0.5468795312500001,
-   "delta": -0.1592,
+   "iv": 0.5361374511718751,
+   "delta": -0.1628,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -114,9 +114,9 @@
    "bid": 0.2,
    "ask": 0.35,
    "oi": 59.0,
-   "volume": 7.0,
-   "iv": 0.2534254345703125,
-   "delta": -0.2711,
+   "volume": 17.0,
+   "iv": 0.23926541992187497,
+   "delta": -0.2841,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -129,8 +129,8 @@
    "ask": 2.0,
    "oi": 35.0,
    "volume": 1.0,
-   "iv": 0.33301448242187504,
-   "delta": 0.6453,
+   "iv": 0.3540103662109374,
+   "delta": 0.627,
    "delta_source": "black_scholes",
    "last_trade_time": null
   },
@@ -143,8 +143,8 @@
    "ask": 0.4,
    "oi": 12.0,
    "volume": 12.0,
-   "iv": 0.3676821044921875,
-   "delta": 0.1932,
+   "iv": 0.3764710791015625,
+   "delta": 0.1907,
    "delta_source": "black_scholes",
    "last_trade_time": null
   }
