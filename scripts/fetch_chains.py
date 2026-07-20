@@ -10,6 +10,34 @@ v2 - Jul-20-2026. Fixes the "phantom staleness" defect:
   v2 records fetched_at_utc explicitly and emits machine-readable quality flags.
 """
 import json, os, sys, time, datetime, urllib.request, urllib.error
+try:
+    from zoneinfo import ZoneInfo
+    ET = ZoneInfo("America/New_York")
+except Exception:  # pragma: no cover
+    ET = None
+
+BLOCKING_FLAGS = {"NO_CONTRACTS", "NO_SPOT", "NO_GREEKS", "NO_BIDS",
+                  "CBOE_TS_OVER_24H", "SUSPECT_STALE"}
+
+
+def _num(v):
+    """CBOE occasionally returns numerics as strings. Never crash a whole ticker."""
+    if v is None or isinstance(v, bool):
+        return None
+    if isinstance(v, (int, float)):
+        return float(v)
+    try:
+        return float(str(v).strip())
+    except (TypeError, ValueError):
+        return None
+
+
+def market_date(dt_utc):
+    """Trading date in US/Eastern. A UTC-date rollover at 20:00 ET must not
+    advance the expiry calendar and silently zero out DTE."""
+    if ET is None:
+        return (dt_utc - datetime.timedelta(hours=4)).date()
+    return dt_utc.replace(tzinfo=datetime.timezone.utc).astimezone(ET).date()
 
 UA = {"User-Agent": "Mozilla/5.0 (LEAPEngine chain-bot)"}
 BASE = "https://cdn.cboe.com/api/global/delayed_quotes/options/{}.json"
@@ -38,8 +66,8 @@ def fetch(symbol):
 
 def build(ticker, raw, resolved, fetched_at):
     d = raw.get("data", {}) or {}
-    spot = d.get("current_price") or d.get("close")
-    prev = d.get("prev_day_close")
+    spot = _num(d.get("current_price")) or _num(d.get("close"))
+    prev = _num(d.get("prev_day_close"))
     cboe_ts = raw.get("timestamp") or d.get("last_trade_time")
 
     out = {
@@ -53,8 +81,9 @@ def build(ticker, raw, resolved, fetched_at):
         "options": [],
     }
 
-    today = fetched_at.date()
+    today = market_date(fetched_at)
     greeks = bids = 0
+    seen = set()
     for o in d.get("options", []) or []:
         sym = o.get("option", "")
         core = sym[len(resolved.lstrip("_")):]
@@ -69,17 +98,21 @@ def build(ticker, raw, resolved, fetched_at):
         dte = (expd - today).days
         if not (0 < dte <= 75 and 0.70 * spot <= strike <= 1.40 * spot):
             continue
-        delta = o.get("delta")
-        bid = o.get("bid") or 0
-        if delta not in (None, 0, 0.0):
+        key = (cp, expd, strike)
+        if key in seen:
+            continue
+        seen.add(key)
+        delta = _num(o.get("delta"))
+        bid = _num(o.get("bid"))
+        if delta is not None and delta != 0:
             greeks += 1
-        if bid and bid > 0:
+        if bid is not None and bid > 0:
             bids += 1
         out["options"].append({
             "type": cp, "exp": expd.isoformat(), "dte": dte, "strike": strike,
-            "bid": o.get("bid"), "ask": o.get("ask"),
-            "oi": o.get("open_interest"), "volume": o.get("volume"),
-            "iv": o.get("iv"), "delta": delta,
+            "bid": bid, "ask": _num(o.get("ask")),
+            "oi": _num(o.get("open_interest")), "volume": _num(o.get("volume")),
+            "iv": _num(o.get("iv")), "delta": delta,
             "last_trade_time": o.get("last_trade_time"),
         })
 
@@ -109,6 +142,11 @@ def build(ticker, raw, resolved, fetched_at):
                 continue
     if age is not None and age > 24:
         flags.append("CBOE_TS_OVER_24H")
+    if "SPOT_EQUALS_PREV_CLOSE" in flags and (age is None or age > 4):
+        # frozen payload signature: price never moved AND the stamp is old
+        flags.append("SUSPECT_STALE")
+    if age is None:
+        flags.append("NO_CBOE_TIMESTAMP")
 
     out["quality"] = {
         "contracts": n,
@@ -116,7 +154,8 @@ def build(ticker, raw, resolved, fetched_at):
         "with_bids": bids,
         "cboe_ts_age_hours": age,
         "flags": flags,
-        "tradable": not ({"NO_CONTRACTS", "NO_SPOT", "NO_GREEKS", "NO_BIDS"} & set(flags)),
+        "tradable": not (BLOCKING_FLAGS & set(flags)),
+        "blocked_by": sorted(BLOCKING_FLAGS & set(flags)),
     }
     return out
 
@@ -127,7 +166,7 @@ def main():
         print("no tickers supplied", file=sys.stderr)
         return 1
     os.makedirs("data", exist_ok=True)
-    fetched_at = datetime.datetime.utcnow()
+    fetched_at = datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)
     report = {"run_utc": fetched_at.isoformat(timespec="seconds") + "Z", "tickers": {}}
 
     for t in tickers:

@@ -62,6 +62,55 @@ def infer_frequency(dates):
     return 1, g
 
 
+def a7r_verdict(tr, ttm_yield):
+    """A7-R: is the distribution economically earned over 12 months?
+    EARNED = total return >= distribution yield. UNDEREARNING = positive but
+    below it. ERODING = negative total return while still distributing."""
+    if tr is None or not ttm_yield:
+        return None
+    if tr < 0:
+        return "ERODING"
+    if tr < ttm_yield:
+        return "UNDEREARNING"
+    return "EARNED"
+
+
+def lapse_flag(last_ex, freq, today):
+    """True if the next payment is overdue by >1.5 intervals. A suspended
+    distribution otherwise reads as a benign 'low yield' instead of a Rule 9
+    trigger."""
+    if not last_ex or not freq:
+        return False
+    interval = 365.0 / freq
+    return (today - last_ex).days > interval * 1.5
+
+
+def split_flag(split_dates, since):
+    """price_return_12m is computed from unadjusted closes. Across a split that
+    number is meaningless (SCHD 3-for-1). Detect rather than silently report."""
+    return any(d >= since for d in (split_dates or []))
+
+
+def yield_flags(ttm_yield, run_rate, ttm_count, freq, full, tr, lapsed=False,
+                split=False):
+    flags = []
+    if not full:
+        flags.append("PARTIAL_HISTORY")
+    if ttm_yield and freq and ttm_count < freq * 0.75:
+        flags.append("TTM_UNDERCOUNTED")
+    if ttm_yield and freq and ttm_count > freq:
+        flags.append("TTM_OVERCOUNTED")
+    if ttm_yield and run_rate and run_rate > 0 and ttm_yield > run_rate * 1.35:
+        flags.append("SPECIAL_DIVIDEND_SUSPECTED")
+    if lapsed:
+        flags.append("DISTRIBUTION_LAPSED")
+    if split:
+        flags.append("SPLIT_IN_WINDOW")
+    if a7r_verdict(tr, ttm_yield) is None:
+        flags.append("A7R_NOT_RUN")
+    return flags
+
+
 def fetch_one(ticker, since):
     """Returns (dividend rows, last_price, price_stats)."""
     import yfinance as yf
@@ -97,6 +146,13 @@ def fetch_one(ticker, since):
                 stats["total_return_12m_pct"] = round((a1 / a0 - 1) * 100, 2)
     except Exception as e:  # noqa: BLE001
         stats["price_error"] = str(e)
+
+    try:
+        sp = t.splits
+        if sp is not None and len(sp):
+            stats["split_dates"] = [ix.date().isoformat() for ix in sp.index]
+    except Exception:  # noqa: BLE001
+        pass
 
     out = []
     try:
@@ -186,8 +242,8 @@ def main():
         freq, gap = infer_frequency(ds)
         px = prices.get(tk)
         st = pstats.get(tk, {})
-        cov = (ds[-1] - ds[0]).days if len(ds) > 1 else 0
-        full = cov >= 350 and len(ttm) >= 1
+        cov = (today - ds[0]).days if ds else 0
+        full = bool(ds) and ds[0] <= yr_ago and len(ttm) >= (freq or 4) * 0.75
 
         ttm_yield = round(ttm_sum / px * 100, 3) if (px and ttm_sum) else None
         # run-rate yield: latest payment annualised. Usable when history is short.
@@ -198,29 +254,24 @@ def main():
 
         tr = st.get("total_return_12m_pct")
         pr = st.get("price_return_12m_pct")
-        flags = []
-        if not full:
-            flags.append("PARTIAL_HISTORY")
-        if ttm_yield and len(ttm) < (freq or 4) * 0.75:
-            flags.append("TTM_UNDERCOUNTED")
-        # A7-R: is the distribution economically earned?
-        verdict = None
-        if tr is not None and ttm_yield:
-            if tr < 0:
-                verdict = "ERODING"          # total return negative despite paying
-            elif tr < ttm_yield:
-                verdict = "UNDEREARNING"     # paying more than it makes
-            else:
-                verdict = "EARNED"
-            if pr is not None and pr < -10:
-                flags.append("NAV_DOWN_OVER_10PCT")
+        lapsed = lapse_flag(max(ds) if ds else None, freq, today)
+        splits = [datetime.date.fromisoformat(x) for x in st.get("split_dates", [])]
+        split = split_flag(splits, yr_ago)
+        verdict = a7r_verdict(tr, ttm_yield)
+        flags = yield_flags(ttm_yield, rr, len(ttm), freq, full, tr,
+                            lapsed=lapsed, split=split)
+        if pr is not None and pr < -10:
+            flags.append("NAV_DOWN_OVER_10PCT")
+        # a name that is eroding or has lapsed is not deployable capital
+        deployable = verdict in ("EARNED",) and not lapsed and not split \
+            and "SPECIAL_DIVIDEND_SUSPECTED" not in flags and full
         ylds[tk] = {
             "price": px, "frequency": freq, "median_gap_days": gap,
             "ttm_distributions_per_share": ttm_sum, "ttm_payment_count": len(ttm),
             "ttm_yield_pct": ttm_yield, "run_rate_yield_pct": rr,
             "history_days": cov, "full_12m_history": full,
             "price_return_12m_pct": pr, "total_return_12m_pct": tr,
-            "a7r_verdict": verdict, "flags": flags,
+            "a7r_verdict": verdict, "deployable": deployable, "flags": flags,
         }
 
     json.dump({"generated_at": now, "as_of": today.isoformat(),
