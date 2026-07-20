@@ -3,11 +3,20 @@ name: fetch_distributions
 # Weekly per-share distribution fetch. Runs in a PUBLIC repo -> unlimited free
 # Actions minutes, independent of the private-repo minute cap. Commits only public
 # per-share data (no holdings, no dollars).
+#
+# v2 Jul-20-2026: lookback raised 120d -> 800d. The 120-day window made a
+# trailing-12-month yield mathematically impossible and silently produced yields
+# roughly 3x too low. Also now emits data/YIELDS.json with A7-R verdicts.
 
 on:
   schedule:
     - cron: "15 13 * * 1"   # Mondays ~09:15 ET
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      days:
+        description: 'Lookback window in days (800 = ~2yr backfill)'
+        required: false
+        default: '800'
 
 permissions:
   contents: write
@@ -26,15 +35,15 @@ jobs:
           python-version: "3.12"
       - run: pip install --quiet yfinance
       - name: Fetch per-share distributions
-        run: python scripts/fetch_distributions.py --days 120
+        run: python scripts/fetch_distributions.py --days ${{ github.event.inputs.days || '800' }}
       - name: Commit
         run: |
           git config user.name  "leapengine-bot"
           git config user.email "leapengine-bot@users.noreply.github.com"
-          git add data/DISTRIBUTIONS.json
+          git add data/DISTRIBUTIONS.json data/YIELDS.json
           if git diff --cached --quiet; then
             echo "No distribution changes this run."
           else
-            git commit -m "chore: weekly distribution refresh ($(date -u +%Y-%m-%d))"
+            git commit -m "chore: distribution refresh ($(date -u +%Y-%m-%d))"
             git push
           fi
