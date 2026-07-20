@@ -1,0 +1,125 @@
+{
+ "ticker": "AHRT",
+ "resolved_symbol": "AHRT",
+ "fetched_at_utc": "2026-07-20T17:19:01Z",
+ "cboe_timestamp": "2026-07-17 12:35:33",
+ "spot": 7.03,
+ "prev_close": 7.03,
+ "quality": {
+  "contracts": 8,
+  "with_greeks": 8,
+  "with_bids": 3,
+  "cboe_ts_age_hours": 76.72,
+  "flags": [
+   "SPOT_EQUALS_PREV_CLOSE",
+   "CBOE_TS_OVER_24H"
+  ],
+  "tradable": true
+ },
+ "options": [
+  {
+   "type": "C",
+   "exp": "2026-08-21",
+   "dte": 32,
+   "strike": 5.0,
+   "bid": 1.8,
+   "ask": 2.5,
+   "oi": 66.0,
+   "volume": 0.0,
+   "iv": 0.9145,
+   "delta": 0.9254,
+   "last_trade_time": "2026-06-23T15:46:26"
+  },
+  {
+   "type": "P",
+   "exp": "2026-08-21",
+   "dte": 32,
+   "strike": 5.0,
+   "bid": 0.0,
+   "ask": 0.2,
+   "oi": 123.0,
+   "volume": 0.0,
+   "iv": 0.9313,
+   "delta": -0.0732,
+   "last_trade_time": "2026-07-01T09:30:06"
+  },
+  {
+   "type": "C",
+   "exp": "2026-08-21",
+   "dte": 32,
+   "strike": 7.5,
+   "bid": 0.0,
+   "ask": 0.15,
+   "oi": 1421.0,
+   "volume": 0.0,
+   "iv": 0.2524,
+   "delta": 0.267,
+   "last_trade_time": "2026-07-13T10:34:10"
+  },
+  {
+   "type": "P",
+   "exp": "2026-08-21",
+   "dte": 32,
+   "strike": 7.5,
+   "bid": 0.2,
+   "ask": 0.9,
+   "oi": 408.0,
+   "volume": 0.0,
+   "iv": 0.3053,
+   "delta": -0.7406,
+   "last_trade_time": "2026-07-14T09:39:53"
+  },
+  {
+   "type": "C",
+   "exp": "2026-09-18",
+   "dte": 60,
+   "strike": 5.0,
+   "bid": 0.8,
+   "ask": 3.5,
+   "oi": 0.0,
+   "volume": 0.0,
+   "iv": 0.0,
+   "delta": 0.9337,
+   "last_trade_time": null
+  },
+  {
+   "type": "P",
+   "exp": "2026-09-18",
+   "dte": 60,
+   "strike": 5.0,
+   "bid": 0.0,
+   "ask": 1.35,
+   "oi": 0.0,
+   "volume": 0.0,
+   "iv": 1.541,
+   "delta": -0.0773,
+   "last_trade_time": null
+  },
+  {
+   "type": "C",
+   "exp": "2026-09-18",
+   "dte": 60,
+   "strike": 7.5,
+   "bid": 0.0,
+   "ask": 1.5,
+   "oi": 0.0,
+   "volume": 0.0,
+   "iv": 0.7453,
+   "delta": 0.3883,
+   "last_trade_time": null
+  },
+  {
+   "type": "P",
+   "exp": "2026-09-18",
+   "dte": 60,
+   "strike": 7.5,
+   "bid": 0.0,
+   "ask": 1.9,
+   "oi": 0.0,
+   "volume": 0.0,
+   "iv": 0.6284,
+   "delta": -0.6647,
+   "last_trade_time": null
+  }
+ ]
+}

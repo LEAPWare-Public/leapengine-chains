@@ -1,7 +1,7 @@
 {
  "ticker": "KIM",
  "resolved_symbol": "KIM",
- "fetched_at_utc": "2026-07-20T17:13:03Z",
+ "fetched_at_utc": "2026-07-20T17:19:01Z",
  "cboe_timestamp": "2026-07-17 01:09:36",
  "spot": 26.03,
  "prev_close": 25.09,
@@ -9,7 +9,7 @@
   "contracts": 20,
   "with_greeks": 20,
   "with_bids": 10,
-  "cboe_ts_age_hours": 88.06,
+  "cboe_ts_age_hours": 88.16,
   "flags": [
    "CBOE_TS_OVER_24H"
   ],

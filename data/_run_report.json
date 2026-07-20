@@ -1,38 +1,163 @@
 {
- "run_utc": "2026-07-20T17:13:03Z",
+ "run_utc": "2026-07-20T17:19:01Z",
  "tickers": {
-  "OKE": {
-   "contracts": 52,
-   "with_greeks": 52,
-   "with_bids": 43,
-   "cboe_ts_age_hours": 41.68,
+  "CTRE": {
+   "contracts": 36,
+   "with_greeks": 36,
+   "with_bids": 26,
+   "cboe_ts_age_hours": 66.12,
+   "flags": [
+    "CBOE_TS_OVER_24H"
+   ],
+   "tradable": true
+  },
+  "KIM": {
+   "contracts": 20,
+   "with_greeks": 20,
+   "with_bids": 10,
+   "cboe_ts_age_hours": 88.16,
+   "flags": [
+    "CBOE_TS_OVER_24H"
+   ],
+   "tradable": true
+  },
+  "VICI": {
+   "contracts": 32,
+   "with_greeks": 32,
+   "with_bids": 21,
+   "cboe_ts_age_hours": 2.86,
+   "flags": [],
+   "tradable": true
+  },
+  "KRG": {
+   "contracts": 18,
+   "with_greeks": 18,
+   "with_bids": 8,
+   "cboe_ts_age_hours": 1.67,
+   "flags": [],
+   "tradable": true
+  },
+  "EGP": {
+   "contracts": 70,
+   "with_greeks": 70,
+   "with_bids": 44,
+   "cboe_ts_age_hours": 86.03,
+   "flags": [
+    "CBOE_TS_OVER_24H"
+   ],
+   "tradable": true
+  },
+  "FRT": {
+   "contracts": 62,
+   "with_greeks": 62,
+   "with_bids": 38,
+   "cboe_ts_age_hours": 18.0,
+   "flags": [
+    "SPOT_EQUALS_PREV_CLOSE"
+   ],
+   "tradable": true
+  },
+  "NNN": {
+   "contracts": 26,
+   "with_greeks": 26,
+   "with_bids": 19,
+   "cboe_ts_age_hours": 17.75,
+   "flags": [
+    "SPOT_EQUALS_PREV_CLOSE"
+   ],
+   "tradable": true
+  },
+  "WPC": {
+   "contracts": 44,
+   "with_greeks": 44,
+   "with_bids": 27,
+   "cboe_ts_age_hours": 17.47,
+   "flags": [
+    "SPOT_EQUALS_PREV_CLOSE"
+   ],
+   "tradable": true
+  },
+  "ADC": {
+   "contracts": 44,
+   "with_greeks": 44,
+   "with_bids": 27,
+   "cboe_ts_age_hours": 87.71,
+   "flags": [
+    "CBOE_TS_OVER_24H"
+   ],
+   "tradable": true
+  },
+  "DOC": {
+   "contracts": 20,
+   "with_greeks": 20,
+   "with_bids": 15,
+   "cboe_ts_age_hours": 3.19,
+   "flags": [],
+   "tradable": true
+  },
+  "UDR": {
+   "contracts": 40,
+   "with_greeks": 40,
+   "with_bids": 22,
+   "cboe_ts_age_hours": 50.48,
    "flags": [
     "SPOT_EQUALS_PREV_CLOSE",
     "CBOE_TS_OVER_24H"
    ],
    "tradable": true
   },
-  "KMI": {
-   "contracts": 350,
-   "with_greeks": 350,
-   "with_bids": 290,
-   "cboe_ts_age_hours": 3.2,
+  "RYN": {
+   "contracts": 24,
+   "with_greeks": 24,
+   "with_bids": 17,
+   "cboe_ts_age_hours": 89.67,
+   "flags": [
+    "CBOE_TS_OVER_24H"
+   ],
+   "tradable": true
+  },
+  "AHRT": {
+   "contracts": 8,
+   "with_greeks": 8,
+   "with_bids": 3,
+   "cboe_ts_age_hours": 76.72,
+   "flags": [
+    "SPOT_EQUALS_PREV_CLOSE",
+    "CBOE_TS_OVER_24H"
+   ],
+   "tradable": true
+  },
+  "IYRI": {
+   "contracts": 60,
+   "with_greeks": 60,
+   "with_bids": 33,
+   "cboe_ts_age_hours": 52.48,
+   "flags": [
+    "SPOT_EQUALS_PREV_CLOSE",
+    "CBOE_TS_OVER_24H"
+   ],
+   "tradable": true
+  },
+  "PFFR": {
+   "flags": [
+    "FETCH_FAILED"
+   ],
+   "error": "HTTP 403",
+   "tradable": false
+  },
+  "O": {
+   "contracts": 56,
+   "with_greeks": 56,
+   "with_bids": 43,
+   "cboe_ts_age_hours": 0.27,
    "flags": [],
    "tradable": true
   },
-  "VZ": {
-   "contracts": 454,
-   "with_greeks": 454,
-   "with_bids": 371,
-   "cboe_ts_age_hours": 0.01,
-   "flags": [],
-   "tradable": true
-  },
-  "XOM": {
-   "contracts": 580,
-   "with_greeks": 580,
-   "with_bids": 488,
-   "cboe_ts_age_hours": 0.01,
+  "ARE": {
+   "contracts": 46,
+   "with_greeks": 46,
+   "with_bids": 45,
+   "cboe_ts_age_hours": 1.47,
    "flags": [],
    "tradable": true
   },
@@ -40,61 +165,43 @@
    "contracts": 80,
    "with_greeks": 80,
    "with_bids": 58,
-   "cboe_ts_age_hours": 17.53,
+   "cboe_ts_age_hours": 17.63,
    "flags": [
     "SPOT_EQUALS_PREV_CLOSE"
    ],
    "tradable": true
   },
-  "ARE": {
-   "contracts": 46,
-   "with_greeks": 46,
-   "with_bids": 45,
-   "cboe_ts_age_hours": 1.37,
-   "flags": [],
-   "tradable": true
-  },
-  "VICI": {
-   "contracts": 32,
-   "with_greeks": 32,
-   "with_bids": 21,
-   "cboe_ts_age_hours": 2.76,
-   "flags": [],
-   "tradable": true
-  },
-  "KIM": {
-   "contracts": 20,
-   "with_greeks": 20,
-   "with_bids": 10,
-   "cboe_ts_age_hours": 88.06,
+  "PLD": {
+   "contracts": 76,
+   "with_greeks": 76,
+   "with_bids": 59,
+   "cboe_ts_age_hours": 65.73,
    "flags": [
     "CBOE_TS_OVER_24H"
    ],
    "tradable": true
   },
-  "CTRE": {
-   "contracts": 36,
-   "with_greeks": 36,
-   "with_bids": 26,
-   "cboe_ts_age_hours": 66.02,
-   "flags": [
-    "CBOE_TS_OVER_24H"
-   ],
+  "AMT": {
+   "contracts": 80,
+   "with_greeks": 80,
+   "with_bids": 68,
+   "cboe_ts_age_hours": 5.21,
+   "flags": [],
+   "tradable": true
+  },
+  "SCHD": {
+   "contracts": 368,
+   "with_greeks": 342,
+   "with_bids": 196,
+   "cboe_ts_age_hours": 5.32,
+   "flags": [],
    "tradable": true
   },
   "REXR": {
    "contracts": 20,
    "with_greeks": 20,
    "with_bids": 14,
-   "cboe_ts_age_hours": 2.27,
-   "flags": [],
-   "tradable": true
-  },
-  "O": {
-   "contracts": 56,
-   "with_greeks": 56,
-   "with_bids": 43,
-   "cboe_ts_age_hours": 0.17,
+   "cboe_ts_age_hours": 2.37,
    "flags": [],
    "tradable": true
   }

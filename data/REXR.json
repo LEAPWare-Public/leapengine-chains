@@ -1,7 +1,7 @@
 {
  "ticker": "REXR",
  "resolved_symbol": "REXR",
- "fetched_at_utc": "2026-07-20T17:13:03Z",
+ "fetched_at_utc": "2026-07-20T17:19:01Z",
  "cboe_timestamp": "2026-07-20 14:56:56",
  "spot": 37.015,
  "prev_close": 37.46,
@@ -9,7 +9,7 @@
   "contracts": 20,
   "with_greeks": 20,
   "with_bids": 14,
-  "cboe_ts_age_hours": 2.27,
+  "cboe_ts_age_hours": 2.37,
   "flags": [],
   "tradable": true
  },

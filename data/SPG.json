@@ -1,7 +1,7 @@
 {
  "ticker": "SPG",
  "resolved_symbol": "SPG",
- "fetched_at_utc": "2026-07-20T17:13:03Z",
+ "fetched_at_utc": "2026-07-20T17:19:01Z",
  "cboe_timestamp": "2026-07-19 23:40:59",
  "spot": 228.7,
  "prev_close": 228.7,
@@ -9,7 +9,7 @@
   "contracts": 80,
   "with_greeks": 80,
   "with_bids": 58,
-  "cboe_ts_age_hours": 17.53,
+  "cboe_ts_age_hours": 17.63,
   "flags": [
    "SPOT_EQUALS_PREV_CLOSE"
   ],
