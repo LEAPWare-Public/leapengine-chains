@@ -1,7 +1,7 @@
 {
  "ticker": "AMT",
  "resolved_symbol": "AMT",
- "fetched_at_utc": "2026-07-20T17:19:01Z",
+ "fetched_at_utc": "2026-07-20T17:45:27Z",
  "cboe_timestamp": "2026-07-20 12:06:23",
  "spot": 169.88,
  "prev_close": 170.06,
@@ -9,9 +9,10 @@
   "contracts": 80,
   "with_greeks": 80,
   "with_bids": 68,
-  "cboe_ts_age_hours": 5.21,
+  "cboe_ts_age_hours": 5.65,
   "flags": [],
-  "tradable": true
+  "tradable": true,
+  "blocked_by": []
  },
  "options": [
   {

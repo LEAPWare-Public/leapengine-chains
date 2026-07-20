@@ -1,7 +1,7 @@
 {
  "ticker": "ARE",
  "resolved_symbol": "ARE",
- "fetched_at_utc": "2026-07-20T17:19:01Z",
+ "fetched_at_utc": "2026-07-20T17:45:27Z",
  "cboe_timestamp": "2026-07-20 15:51:04",
  "spot": 50.08,
  "prev_close": 50.22,
@@ -9,9 +9,10 @@
   "contracts": 46,
   "with_greeks": 46,
   "with_bids": 45,
-  "cboe_ts_age_hours": 1.47,
+  "cboe_ts_age_hours": 1.91,
   "flags": [],
-  "tradable": true
+  "tradable": true,
+  "blocked_by": []
  },
  "options": [
   {

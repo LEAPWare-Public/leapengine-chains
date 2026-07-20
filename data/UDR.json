@@ -1,7 +1,7 @@
 {
  "ticker": "UDR",
  "resolved_symbol": "UDR",
- "fetched_at_utc": "2026-07-20T17:19:01Z",
+ "fetched_at_utc": "2026-07-20T17:45:27Z",
  "cboe_timestamp": "2026-07-18 14:50:13",
  "spot": 39.76,
  "prev_close": 39.76,
@@ -9,12 +9,17 @@
   "contracts": 40,
   "with_greeks": 40,
   "with_bids": 22,
-  "cboe_ts_age_hours": 50.48,
+  "cboe_ts_age_hours": 50.92,
   "flags": [
    "SPOT_EQUALS_PREV_CLOSE",
-   "CBOE_TS_OVER_24H"
+   "CBOE_TS_OVER_24H",
+   "SUSPECT_STALE"
   ],
-  "tradable": true
+  "tradable": false,
+  "blocked_by": [
+   "CBOE_TS_OVER_24H",
+   "SUSPECT_STALE"
+  ]
  },
  "options": [
   {

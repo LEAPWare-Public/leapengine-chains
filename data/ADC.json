@@ -1,7 +1,7 @@
 {
  "ticker": "ADC",
  "resolved_symbol": "ADC",
- "fetched_at_utc": "2026-07-20T17:19:01Z",
+ "fetched_at_utc": "2026-07-20T17:45:27Z",
  "cboe_timestamp": "2026-07-17 01:36:43",
  "spot": 80.75,
  "prev_close": 77.64,
@@ -9,11 +9,14 @@
   "contracts": 44,
   "with_greeks": 44,
   "with_bids": 27,
-  "cboe_ts_age_hours": 87.71,
+  "cboe_ts_age_hours": 88.15,
   "flags": [
    "CBOE_TS_OVER_24H"
   ],
-  "tradable": true
+  "tradable": false,
+  "blocked_by": [
+   "CBOE_TS_OVER_24H"
+  ]
  },
  "options": [
   {

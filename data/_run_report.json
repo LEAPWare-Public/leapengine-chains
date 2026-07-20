@@ -1,142 +1,164 @@
 {
- "run_utc": "2026-07-20T17:19:01Z",
+ "run_utc": "2026-07-20T17:45:27Z",
  "tickers": {
-  "CTRE": {
-   "contracts": 36,
-   "with_greeks": 36,
-   "with_bids": 26,
-   "cboe_ts_age_hours": 66.12,
-   "flags": [
-    "CBOE_TS_OVER_24H"
-   ],
-   "tradable": true
-  },
-  "KIM": {
-   "contracts": 20,
-   "with_greeks": 20,
-   "with_bids": 10,
-   "cboe_ts_age_hours": 88.16,
-   "flags": [
-    "CBOE_TS_OVER_24H"
-   ],
-   "tradable": true
-  },
-  "VICI": {
-   "contracts": 32,
-   "with_greeks": 32,
-   "with_bids": 21,
-   "cboe_ts_age_hours": 2.86,
+  "O": {
+   "contracts": 56,
+   "with_greeks": 56,
+   "with_bids": 43,
+   "cboe_ts_age_hours": 0.71,
    "flags": [],
-   "tradable": true
+   "tradable": true,
+   "blocked_by": []
   },
-  "KRG": {
-   "contracts": 18,
-   "with_greeks": 18,
-   "with_bids": 8,
-   "cboe_ts_age_hours": 1.67,
-   "flags": [],
-   "tradable": true
-  },
-  "EGP": {
-   "contracts": 70,
-   "with_greeks": 70,
-   "with_bids": 44,
-   "cboe_ts_age_hours": 86.03,
+  "RQI": {
    "flags": [
-    "CBOE_TS_OVER_24H"
+    "FETCH_FAILED"
    ],
-   "tradable": true
-  },
-  "FRT": {
-   "contracts": 62,
-   "with_greeks": 62,
-   "with_bids": 38,
-   "cboe_ts_age_hours": 18.0,
-   "flags": [
-    "SPOT_EQUALS_PREV_CLOSE"
-   ],
-   "tradable": true
-  },
-  "NNN": {
-   "contracts": 26,
-   "with_greeks": 26,
-   "with_bids": 19,
-   "cboe_ts_age_hours": 17.75,
-   "flags": [
-    "SPOT_EQUALS_PREV_CLOSE"
-   ],
-   "tradable": true
+   "error": "HTTP 403",
+   "tradable": false
   },
   "WPC": {
    "contracts": 44,
    "with_greeks": 44,
    "with_bids": 27,
-   "cboe_ts_age_hours": 17.47,
-   "flags": [
-    "SPOT_EQUALS_PREV_CLOSE"
-   ],
-   "tradable": true
-  },
-  "ADC": {
-   "contracts": 44,
-   "with_greeks": 44,
-   "with_bids": 27,
-   "cboe_ts_age_hours": 87.71,
-   "flags": [
-    "CBOE_TS_OVER_24H"
-   ],
-   "tradable": true
-  },
-  "DOC": {
-   "contracts": 20,
-   "with_greeks": 20,
-   "with_bids": 15,
-   "cboe_ts_age_hours": 3.19,
-   "flags": [],
-   "tradable": true
-  },
-  "UDR": {
-   "contracts": 40,
-   "with_greeks": 40,
-   "with_bids": 22,
-   "cboe_ts_age_hours": 50.48,
+   "cboe_ts_age_hours": 17.91,
    "flags": [
     "SPOT_EQUALS_PREV_CLOSE",
-    "CBOE_TS_OVER_24H"
+    "SUSPECT_STALE"
    ],
-   "tradable": true
+   "tradable": false,
+   "blocked_by": [
+    "SUSPECT_STALE"
+   ]
   },
-  "RYN": {
-   "contracts": 24,
-   "with_greeks": 24,
-   "with_bids": 17,
-   "cboe_ts_age_hours": 89.67,
+  "NNN": {
+   "contracts": 26,
+   "with_greeks": 26,
+   "with_bids": 19,
+   "cboe_ts_age_hours": 18.2,
+   "flags": [
+    "SPOT_EQUALS_PREV_CLOSE",
+    "SUSPECT_STALE"
+   ],
+   "tradable": false,
+   "blocked_by": [
+    "SUSPECT_STALE"
+   ]
+  },
+  "KIM": {
+   "contracts": 20,
+   "with_greeks": 20,
+   "with_bids": 10,
+   "cboe_ts_age_hours": 88.6,
    "flags": [
     "CBOE_TS_OVER_24H"
    ],
-   "tradable": true
+   "tradable": false,
+   "blocked_by": [
+    "CBOE_TS_OVER_24H"
+   ]
+  },
+  "REXR": {
+   "contracts": 20,
+   "with_greeks": 20,
+   "with_bids": 14,
+   "cboe_ts_age_hours": 2.81,
+   "flags": [],
+   "tradable": true,
+   "blocked_by": []
+  },
+  "CTRE": {
+   "contracts": 36,
+   "with_greeks": 36,
+   "with_bids": 26,
+   "cboe_ts_age_hours": 66.56,
+   "flags": [
+    "CBOE_TS_OVER_24H"
+   ],
+   "tradable": false,
+   "blocked_by": [
+    "CBOE_TS_OVER_24H"
+   ]
+  },
+  "VICI": {
+   "contracts": 32,
+   "with_greeks": 32,
+   "with_bids": 21,
+   "cboe_ts_age_hours": 3.3,
+   "flags": [],
+   "tradable": true,
+   "blocked_by": []
+  },
+  "ARE": {
+   "contracts": 46,
+   "with_greeks": 46,
+   "with_bids": 45,
+   "cboe_ts_age_hours": 1.91,
+   "flags": [],
+   "tradable": true,
+   "blocked_by": []
+  },
+  "PFFA": {
+   "contracts": 48,
+   "with_greeks": 48,
+   "with_bids": 27,
+   "cboe_ts_age_hours": 36.64,
+   "flags": [
+    "SPOT_EQUALS_PREV_CLOSE",
+    "CBOE_TS_OVER_24H",
+    "SUSPECT_STALE"
+   ],
+   "tradable": false,
+   "blocked_by": [
+    "CBOE_TS_OVER_24H",
+    "SUSPECT_STALE"
+   ]
   },
   "AHRT": {
    "contracts": 8,
    "with_greeks": 8,
    "with_bids": 3,
-   "cboe_ts_age_hours": 76.72,
+   "cboe_ts_age_hours": 77.17,
    "flags": [
     "SPOT_EQUALS_PREV_CLOSE",
-    "CBOE_TS_OVER_24H"
+    "CBOE_TS_OVER_24H",
+    "SUSPECT_STALE"
    ],
-   "tradable": true
+   "tradable": false,
+   "blocked_by": [
+    "CBOE_TS_OVER_24H",
+    "SUSPECT_STALE"
+   ]
+  },
+  "SPG": {
+   "contracts": 80,
+   "with_greeks": 80,
+   "with_bids": 58,
+   "cboe_ts_age_hours": 18.07,
+   "flags": [
+    "SPOT_EQUALS_PREV_CLOSE",
+    "SUSPECT_STALE"
+   ],
+   "tradable": false,
+   "blocked_by": [
+    "SUSPECT_STALE"
+   ]
   },
   "IYRI": {
    "contracts": 60,
    "with_greeks": 60,
    "with_bids": 33,
-   "cboe_ts_age_hours": 52.48,
+   "cboe_ts_age_hours": 52.92,
    "flags": [
     "SPOT_EQUALS_PREV_CLOSE",
-    "CBOE_TS_OVER_24H"
+    "CBOE_TS_OVER_24H",
+    "SUSPECT_STALE"
    ],
-   "tradable": true
+   "tradable": false,
+   "blocked_by": [
+    "CBOE_TS_OVER_24H",
+    "SUSPECT_STALE"
+   ]
   },
   "PFFR": {
    "flags": [
@@ -145,65 +167,123 @@
    "error": "HTTP 403",
    "tradable": false
   },
-  "O": {
-   "contracts": 56,
-   "with_greeks": 56,
-   "with_bids": 43,
-   "cboe_ts_age_hours": 0.27,
-   "flags": [],
-   "tradable": true
-  },
-  "ARE": {
-   "contracts": 46,
-   "with_greeks": 46,
-   "with_bids": 45,
-   "cboe_ts_age_hours": 1.47,
-   "flags": [],
-   "tradable": true
-  },
-  "SPG": {
-   "contracts": 80,
-   "with_greeks": 80,
-   "with_bids": 58,
-   "cboe_ts_age_hours": 17.63,
+  "RYN": {
+   "contracts": 24,
+   "with_greeks": 24,
+   "with_bids": 17,
+   "cboe_ts_age_hours": 90.11,
    "flags": [
-    "SPOT_EQUALS_PREV_CLOSE"
+    "CBOE_TS_OVER_24H"
    ],
-   "tradable": true
+   "tradable": false,
+   "blocked_by": [
+    "CBOE_TS_OVER_24H"
+   ]
+  },
+  "DOC": {
+   "contracts": 20,
+   "with_greeks": 20,
+   "with_bids": 15,
+   "cboe_ts_age_hours": 3.63,
+   "flags": [],
+   "tradable": true,
+   "blocked_by": []
+  },
+  "UDR": {
+   "contracts": 40,
+   "with_greeks": 40,
+   "with_bids": 22,
+   "cboe_ts_age_hours": 50.92,
+   "flags": [
+    "SPOT_EQUALS_PREV_CLOSE",
+    "CBOE_TS_OVER_24H",
+    "SUSPECT_STALE"
+   ],
+   "tradable": false,
+   "blocked_by": [
+    "CBOE_TS_OVER_24H",
+    "SUSPECT_STALE"
+   ]
+  },
+  "KRG": {
+   "contracts": 18,
+   "with_greeks": 18,
+   "with_bids": 8,
+   "cboe_ts_age_hours": 2.11,
+   "flags": [],
+   "tradable": true,
+   "blocked_by": []
+  },
+  "EGP": {
+   "contracts": 70,
+   "with_greeks": 70,
+   "with_bids": 44,
+   "cboe_ts_age_hours": 86.47,
+   "flags": [
+    "CBOE_TS_OVER_24H"
+   ],
+   "tradable": false,
+   "blocked_by": [
+    "CBOE_TS_OVER_24H"
+   ]
+  },
+  "FRT": {
+   "contracts": 62,
+   "with_greeks": 62,
+   "with_bids": 38,
+   "cboe_ts_age_hours": 18.44,
+   "flags": [
+    "SPOT_EQUALS_PREV_CLOSE",
+    "SUSPECT_STALE"
+   ],
+   "tradable": false,
+   "blocked_by": [
+    "SUSPECT_STALE"
+   ]
+  },
+  "ADC": {
+   "contracts": 44,
+   "with_greeks": 44,
+   "with_bids": 27,
+   "cboe_ts_age_hours": 88.15,
+   "flags": [
+    "CBOE_TS_OVER_24H"
+   ],
+   "tradable": false,
+   "blocked_by": [
+    "CBOE_TS_OVER_24H"
+   ]
   },
   "PLD": {
    "contracts": 76,
    "with_greeks": 76,
    "with_bids": 59,
-   "cboe_ts_age_hours": 65.73,
+   "cboe_ts_age_hours": 66.17,
    "flags": [
     "CBOE_TS_OVER_24H"
    ],
-   "tradable": true
+   "tradable": false,
+   "blocked_by": [
+    "CBOE_TS_OVER_24H"
+   ]
   },
   "AMT": {
    "contracts": 80,
    "with_greeks": 80,
    "with_bids": 68,
-   "cboe_ts_age_hours": 5.21,
+   "cboe_ts_age_hours": 5.65,
    "flags": [],
-   "tradable": true
+   "tradable": true,
+   "blocked_by": []
   },
   "SCHD": {
    "contracts": 368,
    "with_greeks": 342,
    "with_bids": 196,
-   "cboe_ts_age_hours": 5.32,
+   "cboe_ts_age_hours": 5.76,
    "flags": [],
-   "tradable": true
-  },
-  "REXR": {
-   "contracts": 20,
-   "with_greeks": 20,
-   "with_bids": 14,
-   "cboe_ts_age_hours": 2.37,
-   "flags": [],
-   "tradable": true
+   "tradable": true,
+   "blocked_by": []
   }
  }
 }

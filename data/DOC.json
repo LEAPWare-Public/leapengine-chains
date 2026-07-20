@@ -1,7 +1,7 @@
 {
  "ticker": "DOC",
  "resolved_symbol": "DOC",
- "fetched_at_utc": "2026-07-20T17:19:01Z",
+ "fetched_at_utc": "2026-07-20T17:45:27Z",
  "cboe_timestamp": "2026-07-20 14:07:38",
  "spot": 22.57,
  "prev_close": 22.51,
@@ -9,9 +9,10 @@
   "contracts": 20,
   "with_greeks": 20,
   "with_bids": 15,
-  "cboe_ts_age_hours": 3.19,
+  "cboe_ts_age_hours": 3.63,
   "flags": [],
-  "tradable": true
+  "tradable": true,
+  "blocked_by": []
  },
  "options": [
   {

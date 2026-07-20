@@ -1,7 +1,7 @@
 {
  "ticker": "WPC",
  "resolved_symbol": "WPC",
- "fetched_at_utc": "2026-07-20T17:19:01Z",
+ "fetched_at_utc": "2026-07-20T17:45:27Z",
  "cboe_timestamp": "2026-07-19 23:50:34",
  "spot": 75.86,
  "prev_close": 75.86,
@@ -9,11 +9,15 @@
   "contracts": 44,
   "with_greeks": 44,
   "with_bids": 27,
-  "cboe_ts_age_hours": 17.47,
+  "cboe_ts_age_hours": 17.91,
   "flags": [
-   "SPOT_EQUALS_PREV_CLOSE"
+   "SPOT_EQUALS_PREV_CLOSE",
+   "SUSPECT_STALE"
   ],
-  "tradable": true
+  "tradable": false,
+  "blocked_by": [
+   "SUSPECT_STALE"
+  ]
  },
  "options": [
   {

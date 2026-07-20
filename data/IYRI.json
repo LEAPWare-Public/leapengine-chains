@@ -1,7 +1,7 @@
 {
  "ticker": "IYRI",
  "resolved_symbol": "IYRI",
- "fetched_at_utc": "2026-07-20T17:19:01Z",
+ "fetched_at_utc": "2026-07-20T17:45:27Z",
  "cboe_timestamp": "2026-07-18 12:50:17",
  "spot": 50.51,
  "prev_close": 50.51,
@@ -9,12 +9,17 @@
   "contracts": 60,
   "with_greeks": 60,
   "with_bids": 33,
-  "cboe_ts_age_hours": 52.48,
+  "cboe_ts_age_hours": 52.92,
   "flags": [
    "SPOT_EQUALS_PREV_CLOSE",
-   "CBOE_TS_OVER_24H"
+   "CBOE_TS_OVER_24H",
+   "SUSPECT_STALE"
   ],
-  "tradable": true
+  "tradable": false,
+  "blocked_by": [
+   "CBOE_TS_OVER_24H",
+   "SUSPECT_STALE"
+  ]
  },
  "options": [
   {

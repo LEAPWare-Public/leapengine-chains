@@ -1,7 +1,7 @@
 {
  "ticker": "PLD",
  "resolved_symbol": "PLD",
- "fetched_at_utc": "2026-07-20T17:19:01Z",
+ "fetched_at_utc": "2026-07-20T17:45:27Z",
  "cboe_timestamp": "2026-07-17 23:35:22",
  "spot": 149.79,
  "prev_close": 150.06,
@@ -9,11 +9,14 @@
   "contracts": 76,
   "with_greeks": 76,
   "with_bids": 59,
-  "cboe_ts_age_hours": 65.73,
+  "cboe_ts_age_hours": 66.17,
   "flags": [
    "CBOE_TS_OVER_24H"
   ],
-  "tradable": true
+  "tradable": false,
+  "blocked_by": [
+   "CBOE_TS_OVER_24H"
+  ]
  },
  "options": [
   {

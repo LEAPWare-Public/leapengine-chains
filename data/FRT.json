@@ -1,7 +1,7 @@
 {
  "ticker": "FRT",
  "resolved_symbol": "FRT",
- "fetched_at_utc": "2026-07-20T17:19:01Z",
+ "fetched_at_utc": "2026-07-20T17:45:27Z",
  "cboe_timestamp": "2026-07-19 23:19:13",
  "spot": 126.02,
  "prev_close": 126.02,
@@ -9,11 +9,15 @@
   "contracts": 62,
   "with_greeks": 62,
   "with_bids": 38,
-  "cboe_ts_age_hours": 18.0,
+  "cboe_ts_age_hours": 18.44,
   "flags": [
-   "SPOT_EQUALS_PREV_CLOSE"
+   "SPOT_EQUALS_PREV_CLOSE",
+   "SUSPECT_STALE"
   ],
-  "tradable": true
+  "tradable": false,
+  "blocked_by": [
+   "SUSPECT_STALE"
+  ]
  },
  "options": [
   {

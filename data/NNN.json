@@ -1,7 +1,7 @@
 {
  "ticker": "NNN",
  "resolved_symbol": "NNN",
- "fetched_at_utc": "2026-07-20T17:19:01Z",
+ "fetched_at_utc": "2026-07-20T17:45:27Z",
  "cboe_timestamp": "2026-07-19 23:33:44",
  "spot": 49.59,
  "prev_close": 49.59,
@@ -9,11 +9,15 @@
   "contracts": 26,
   "with_greeks": 26,
   "with_bids": 19,
-  "cboe_ts_age_hours": 17.75,
+  "cboe_ts_age_hours": 18.2,
   "flags": [
-   "SPOT_EQUALS_PREV_CLOSE"
+   "SPOT_EQUALS_PREV_CLOSE",
+   "SUSPECT_STALE"
   ],
-  "tradable": true
+  "tradable": false,
+  "blocked_by": [
+   "SUSPECT_STALE"
+  ]
  },
  "options": [
   {

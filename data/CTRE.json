@@ -1,7 +1,7 @@
 {
  "ticker": "CTRE",
  "resolved_symbol": "CTRE",
- "fetched_at_utc": "2026-07-20T17:19:01Z",
+ "fetched_at_utc": "2026-07-20T17:45:27Z",
  "cboe_timestamp": "2026-07-17 23:12:04",
  "spot": 42.88,
  "prev_close": 41.97,
@@ -9,11 +9,14 @@
   "contracts": 36,
   "with_greeks": 36,
   "with_bids": 26,
-  "cboe_ts_age_hours": 66.12,
+  "cboe_ts_age_hours": 66.56,
   "flags": [
    "CBOE_TS_OVER_24H"
   ],
-  "tradable": true
+  "tradable": false,
+  "blocked_by": [
+   "CBOE_TS_OVER_24H"
+  ]
  },
  "options": [
   {

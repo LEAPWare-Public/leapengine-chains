@@ -1,7 +1,7 @@
 {
  "ticker": "AHRT",
  "resolved_symbol": "AHRT",
- "fetched_at_utc": "2026-07-20T17:19:01Z",
+ "fetched_at_utc": "2026-07-20T17:45:27Z",
  "cboe_timestamp": "2026-07-17 12:35:33",
  "spot": 7.03,
  "prev_close": 7.03,
@@ -9,12 +9,17 @@
   "contracts": 8,
   "with_greeks": 8,
   "with_bids": 3,
-  "cboe_ts_age_hours": 76.72,
+  "cboe_ts_age_hours": 77.17,
   "flags": [
    "SPOT_EQUALS_PREV_CLOSE",
-   "CBOE_TS_OVER_24H"
+   "CBOE_TS_OVER_24H",
+   "SUSPECT_STALE"
   ],
-  "tradable": true
+  "tradable": false,
+  "blocked_by": [
+   "CBOE_TS_OVER_24H",
+   "SUSPECT_STALE"
+  ]
  },
  "options": [
   {

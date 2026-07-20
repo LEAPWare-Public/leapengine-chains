@@ -1,7 +1,7 @@
 {
  "ticker": "RYN",
  "resolved_symbol": "RYN",
- "fetched_at_utc": "2026-07-20T17:19:01Z",
+ "fetched_at_utc": "2026-07-20T17:45:27Z",
  "cboe_timestamp": "2026-07-16 23:38:57",
  "spot": 22.15,
  "prev_close": 21.81,
@@ -9,11 +9,14 @@
   "contracts": 24,
   "with_greeks": 24,
   "with_bids": 17,
-  "cboe_ts_age_hours": 89.67,
+  "cboe_ts_age_hours": 90.11,
   "flags": [
    "CBOE_TS_OVER_24H"
   ],
-  "tradable": true
+  "tradable": false,
+  "blocked_by": [
+   "CBOE_TS_OVER_24H"
+  ]
  },
  "options": [
   {

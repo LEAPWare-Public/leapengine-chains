@@ -1,7 +1,7 @@
 {
  "ticker": "KRG",
  "resolved_symbol": "KRG",
- "fetched_at_utc": "2026-07-20T17:19:01Z",
+ "fetched_at_utc": "2026-07-20T17:45:27Z",
  "cboe_timestamp": "2026-07-20 15:39:04",
  "spot": 29.735,
  "prev_close": 29.62,
@@ -9,9 +9,10 @@
   "contracts": 18,
   "with_greeks": 18,
   "with_bids": 8,
-  "cboe_ts_age_hours": 1.67,
+  "cboe_ts_age_hours": 2.11,
   "flags": [],
-  "tradable": true
+  "tradable": true,
+  "blocked_by": []
  },
  "options": [
   {

@@ -1,7 +1,7 @@
 {
  "ticker": "EGP",
  "resolved_symbol": "EGP",
- "fetched_at_utc": "2026-07-20T17:19:01Z",
+ "fetched_at_utc": "2026-07-20T17:45:27Z",
  "cboe_timestamp": "2026-07-17 03:17:29",
  "spot": 223.38,
  "prev_close": 213.11,
@@ -9,11 +9,14 @@
   "contracts": 70,
   "with_greeks": 70,
   "with_bids": 44,
-  "cboe_ts_age_hours": 86.03,
+  "cboe_ts_age_hours": 86.47,
   "flags": [
    "CBOE_TS_OVER_24H"
   ],
-  "tradable": true
+  "tradable": false,
+  "blocked_by": [
+   "CBOE_TS_OVER_24H"
+  ]
  },
  "options": [
   {

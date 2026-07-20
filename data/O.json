@@ -1,7 +1,7 @@
 {
  "ticker": "O",
  "resolved_symbol": "O",
- "fetched_at_utc": "2026-07-20T17:19:01Z",
+ "fetched_at_utc": "2026-07-20T17:45:27Z",
  "cboe_timestamp": "2026-07-20 17:02:43",
  "spot": 65.0899,
  "prev_close": 65.71,
@@ -9,9 +9,10 @@
   "contracts": 56,
   "with_greeks": 56,
   "with_bids": 43,
-  "cboe_ts_age_hours": 0.27,
+  "cboe_ts_age_hours": 0.71,
   "flags": [],
-  "tradable": true
+  "tradable": true,
+  "blocked_by": []
  },
  "options": [
   {

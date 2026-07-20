@@ -1,7 +1,7 @@
 {
  "ticker": "SCHD",
  "resolved_symbol": "SCHD",
- "fetched_at_utc": "2026-07-20T17:19:01Z",
+ "fetched_at_utc": "2026-07-20T17:45:27Z",
  "cboe_timestamp": "2026-07-20 11:59:51",
  "spot": 32.94,
  "prev_close": 32.91,
@@ -9,9 +9,10 @@
   "contracts": 368,
   "with_greeks": 342,
   "with_bids": 196,
-  "cboe_ts_age_hours": 5.32,
+  "cboe_ts_age_hours": 5.76,
   "flags": [],
-  "tradable": true
+  "tradable": true,
+  "blocked_by": []
  },
  "options": [
   {
