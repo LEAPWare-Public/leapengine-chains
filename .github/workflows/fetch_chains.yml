@@ -8,6 +8,10 @@ on:
         default: 'SILJ,SCHD,EPD,AMLP'
 permissions:
   contents: write
+
+concurrency:
+  group: repo-write-main
+  cancel-in-progress: false
 jobs:
   fetch:
     runs-on: ubuntu-latest
@@ -19,8 +23,19 @@ jobs:
         run: python3 scripts/fetch_chains.py
       - name: Commit results
         run: |
-          git config user.name "chain-bot"
-          git config user.email "chain-bot@users.noreply.github.com"
+          git config user.name  "leapengine-bot"
+          git config user.email "leapengine-bot@users.noreply.github.com"
           git add data/
-          git commit -m "chain snapshot $(date -u +%FT%TZ)" || echo "no changes"
-          git push
+          if git diff --cached --quiet; then
+            echo "No changes this run."; exit 0
+          fi
+          git commit -m "chain snapshot $(date -u +%FT%TZ)"
+          # Both workflows push to main. Without rebase+retry a concurrent run
+          # loses the race and the whole job fails after a successful fetch.
+          for i in 1 2 3 4 5; do
+            if git pull --rebase --autostash origin main && git push origin main; then
+              echo "pushed on attempt $i"; exit 0
+            fi
+            echo "push race, retry $i"; sleep $(( (RANDOM % 8) + 3 ))
+          done
+          echo "push failed after retries"; exit 1
