@@ -203,3 +203,14 @@ XEL
 XOM
 XYLD
 XYLG
+
+# --- BENCHMARKS for A7-R overlay-vs-underlying test (added Jul-20-2026) ---
+IBIT
+BITO
+VNQ
+XLRE
+SMH
+SPY
+AGG
+GDX
+SPHY
