@@ -131,3 +131,29 @@ def test_gate_allows_true_earned_claim(tmp_path):
     _setup(tmp_path, {"SPYI":{"verdict":"EARNED"}},
            {"CLAUDE.md":"SPYI is EARNED\n"})
     assert ac.main()==0
+
+# ---- CLA LOW fixes: self-audit surfaces map + coverage problems ----
+def test_l1_flags_unmapped_held_highyielder(monkeypatch):
+    df.HELD.append("ZZZTEST")
+    y={"ZZZTEST":Y(ttm_yield_pct=9.0)}
+    issues=df.validate_benchmark_map(y)
+    df.HELD.remove("ZZZTEST")
+    assert any("ZZZTEST" in i and "blind spot" in i for i in issues)
+
+def test_l1_flags_missing_benchmark_in_feed():
+    y={}  # GLD etc absent
+    issues=df.validate_benchmark_map(y)
+    assert any("GLD" in i and "not in YIELDS" in i for i in issues)
+
+def test_l2_flags_stale_coverage_fact():
+    import datetime
+    df.COVERAGE["ZZZOLD"]={"sec_yield":9,"distribution":9,"verdict":"EARNED",
+                           "as_of":"2020-01-01","source":"test"}
+    stale=df.coverage_staleness(datetime.date.today())
+    del df.COVERAGE["ZZZOLD"]
+    assert any("ZZZOLD" in s for s in stale)
+
+def test_l2_fresh_coverage_not_flagged():
+    import datetime
+    stale=df.coverage_staleness(datetime.date.today())
+    assert not any("PFFA" in s for s in stale), "PFFA coverage is dated today; must not be stale"

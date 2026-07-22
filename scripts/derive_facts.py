@@ -41,13 +41,47 @@ BENCHMARK = {
     # single stocks -> subsector peers (NOT a broad index)
     "VICI": ("GLPI", "peer"), "ARE": ("DOC", "peer"), "AMT": ("VNQ", "peer"),
     "ARCC": ("BIZD", "peer"), "HTGC": ("BIZD", "peer"), "MAIN": ("BIZD", "peer"),
+    # --- household high-yielders surfaced by the L1 self-audit (Jul-20-2026) ---
+    "VZ":   ("T", "peer"),        # telecom single stock vs peer T
+    "AMLP": ("MLPX", "peer"),     # midstream fund vs sister midstream fund
+    "ET":   ("MLPX", "peer"),     # (barred from IRAs anyway, but audit it)
+    "MPLX": ("MLPX", "peer"),
+    "PAA":  ("MLPX", "peer"),
+    "PFE":  ("XLV", "peer"),      # pharma single stock vs health-care sector
+    "OMAH": ("SPY", "overlay"),   # buffer/option-income style
+    "IAUI": ("GLD", "overlay"),   # gold option-income
+    "PBDC": ("BIZD", "overlay"),  # BDC fund-of-funds vs BDC index
+    "BXSL": ("BIZD", "peer"),
+    "AHRT": ("VNQ", "peer"),      # healthcare REIT vs REIT index (thin, but audited)
+    # OVL/OVS/OVF EXITED Jul-20 (sold from TRAD2); mapped so any residual/rebuy is audited
+    "OVL":  ("SPY", "overlay"), "OVS": ("SPY", "overlay"), "OVF": ("SPY", "overlay"),
 }
 # manually-verified coverage facts (SEC yield vs distribution) — updated only with a cited source
+# L2: SEC-yield/coverage cannot be fetched from the free feed, so these are HAND-ENTERED from cited
+# sources. Each carries as_of + source; the deriver flags any entry older than COVERAGE_STALE_DAYS so a
+# hand fact can never silently rot. NOT a live feed — treated as a dated manual input, and labelled so.
+COVERAGE_STALE_DAYS = 45
 COVERAGE = {
-    "PFFA": {"sec_yield": 9.63, "distribution": 9.92, "source": "Virtus factsheet Jul-2026", "verdict": "EARNED"},
-    "PFFR": {"sec_yield": 8.33, "distribution": 8.23, "source": "run-rate proxy", "verdict": "EARNED"},
-    "PCN":  {"sec_yield": None, "distribution": 11.55, "source": "PIMCO UNII <100%, ATM-supplemented", "verdict": "CAVEAT"},
+    "PFFA": {"sec_yield": 9.63, "distribution": 9.92, "verdict": "EARNED",
+             "as_of": "2026-07-20", "source": "Virtus factsheet Jul-2026 (HAND-ENTERED)"},
+    "PFFR": {"sec_yield": 8.33, "distribution": 8.23, "verdict": "EARNED",
+             "as_of": "2026-07-20", "source": "run-rate proxy (HAND-ENTERED)"},
+    "PCN":  {"sec_yield": None, "distribution": 11.55, "verdict": "CAVEAT",
+             "as_of": "2026-07-20", "source": "PIMCO UNII <100%, ATM-supplemented (HAND-ENTERED)"},
 }
+
+
+def coverage_staleness(today):
+    import datetime as _dt
+    stale = []
+    for t, c in COVERAGE.items():
+        try:
+            age = (today - _dt.date.fromisoformat(c["as_of"])).days
+            if age > COVERAGE_STALE_DAYS:
+                stale.append(f"{t}: coverage fact is {age}d old (SLA {COVERAGE_STALE_DAYS}d) — re-verify from source")
+        except Exception:
+            stale.append(f"{t}: coverage fact has no valid as_of date")
+    return stale
 
 
 def a7r_verdict(ticker, Y):
@@ -98,14 +132,75 @@ def a7r_verdict(ticker, Y):
                     "absolute loss so beating a collapsing benchmark is never mistaken for safe."}
 
 
+HELD = ['ADC', 'AHRT', 'AIPI', 'AMLP', 'ARCC', 'ASGI', 'AVGO', 'BIP', 'BTCI', 'CAIQ', 'CEF', 'CEFS', 'CGDV', 'CTRE', 'DIVO', 'DOC', 'EGP', 'EMO', 'EPD', 'FRT', 'GIAX', 'GPIQ', 'GPIX', 'GRNY', 'HTGC', 'IAUI', 'IDVO', 'IGF', 'IGLD', 'IWMI', 'IYRI', 'JBBB', 'KIM', 'KRG', 'MAIN', 'MLPX', 'NNN', 'O', 'OVF', 'OVL', 'OVS', 'PAAA', 'PBDC', 'PCN', 'PDI', 'PFFA', 'PFFR', 'PTY', 'QDVO', 'QQQI', 'REXR', 'RQI', 'RYN', 'SCHD', 'SCHG', 'SCHY', 'SILJ', 'SPYI', 'STAG', 'TDAQ', 'TSPY', 'UDR', 'UTF', 'UTG', 'VICI', 'WPC']
+
+# held income names not individually mapped above -> class default (keeps the audit COMPLETE, not noisy).
+# option-income ETFs -> their index; preferred/credit -> coverage; CEFs/BDCs -> sector; equities -> peer.
+HELD_DEFAULT = {
+    # option-income / covered-call ETFs
+    "IWMI":("IWM","overlay"),"IDVO":("SPY","overlay"),"DIVO":("SPY","overlay"),"QDVO":("QQQ","overlay"),
+    "GPIQ":("QQQ","overlay"),"GPIX":("SPY","overlay"),"TSPY":("SPY","overlay"),"TDAQ":("QQQ","overlay"),
+    "CAIQ":("QQQ","overlay"),
+    # CEFs (equity) -> sector proxy
+    "UTF":("XLU","overlay"),"UTG":("XLU","overlay"),"ASGI":("VNQ","overlay"),"CEFS":("SPY","overlay"),
+    "RQI":("VNQ","overlay"),"CEF":("GLD","overlay"),"EMO":("AMLP","peer"),"PBDC":("BIZD","overlay"),
+    # preferred / credit -> coverage class
+    "PCN":(None,"coverage"),"PTY":("AGG","coverage_tr"),"PDI":("AGG","coverage_tr"),
+    "JBBB":("AGG","coverage_tr"),"PAAA":("AGG","coverage_tr"),
+    # BDCs -> BDC index
+    "MAIN":("BIZD","peer"),
+    # REIT singles -> REIT index
+    "DOC":("VNQ","peer"),"KIM":("VNQ","peer"),"NNN":("VNQ","peer"),"O":("VNQ","peer"),"WPC":("VNQ","peer"),
+    "FRT":("VNQ","peer"),"KRG":("VNQ","peer"),"ADC":("VNQ","peer"),"STAG":("VNQ","peer"),"UDR":("VNQ","peer"),
+    "EGP":("VNQ","peer"),"CTRE":("VNQ","peer"),"REXR":("VNQ","peer"),"RYN":("VNQ","peer"),
+    # equity / growth -> broad
+    "AVGO":("SMH","peer"),"CGDV":("SPY","peer"),"SCHG":("SPY","peer"),"SCHY":("SPY","peer"),
+    "GRNY":("SPY","peer"),"IGF":("SPY","peer"),"SILJ":("GDX","peer"),
+    # gold income
+    "IAUI":("GLD","overlay"),"GIAX":("GLD","overlay"),"IGLD":("GLD","overlay"),
+    # infra/midstream funds
+    "AMLP":("MLPX","peer"),"MLPX":("MLPX","peer"),"EPD":("MLPX","peer"),
+}
+# fold defaults into the main map at import
+for _t,_bc in HELD_DEFAULT.items():
+    BENCHMARK.setdefault(_t,_bc)
+
+
+def validate_benchmark_map(Y):
+    """L1 guard: a wrong/missing benchmark yields a confident-but-wrong verdict. Surface both."""
+    issues = []
+    for tkr, (bench, cls) in BENCHMARK.items():
+        if cls in ("overlay", "peer", "coverage_tr"):
+            if bench is None:
+                issues.append(f"{tkr}: class {cls} requires a benchmark but none is set")
+            elif bench not in Y:
+                issues.append(f"{tkr}: benchmark {bench} not in YIELDS.json (verdict will be UNRESOLVED)")
+    # HELD income names with a real yield but NO A7-R mapping = a real blind spot (scoped to holdings)
+    for tkr in HELD:
+        v = Y.get(tkr, {})
+        y = v.get("ttm_yield_pct")
+        if y and y >= 5.0 and tkr not in BENCHMARK:
+            issues.append(f"{tkr}: HELD, {y:.1f}% yield, NO A7-R benchmark — unaudited blind spot")
+    return issues
+
+
 def main():
     now = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
     if not os.path.exists(YIELDS):
         print(f"FATAL: {YIELDS} missing — run fetch_distributions first", file=sys.stderr)
         return 1
     Y = json.load(open(YIELDS))["tickers"]
+    import datetime as _dt
+    today = _dt.date.today()
 
     facts = {"generated_at": now, "producer": "derive_facts.py", "facts": {}}
+
+    # L1 + L2 self-audit: map correctness and hand-fact staleness are surfaced, never silent
+    map_issues = validate_benchmark_map(Y)
+    cov_issues = coverage_staleness(today)
+    facts["self_audit"] = {"benchmark_map_issues": map_issues,
+                           "coverage_staleness": cov_issues,
+                           "clean": not (map_issues or cov_issues)}
 
     # ---- A7-R verdicts: computed once, here ----
     verdicts = {}
@@ -130,8 +225,12 @@ def main():
     json.dump(facts, open(FACTS, "w"), indent=2)
 
     # ---- human-readable verdict summary for ledgers to QUOTE (never restate by hand) ----
+    sa = facts.get("self_audit", {})
     lines = [f"# A7-R VERDICTS — generated {now} by derive_facts.py. DO NOT EDIT BY HAND.",
              "# Ledgers and CLAUDE.md must QUOTE these, never restate them. This is the golden record.",
+             f"# SELF-AUDIT: {'CLEAN' if sa.get('clean') else str(len(sa.get('benchmark_map_issues',[])))+' map notes (see FACTS.json.self_audit)'}",
+             "# CAVEAT (L3): verdicts are machine-computed but the BENCHMARK MAP and COVERAGE facts are",
+             "# human-reviewed inputs. A verdict is only as right as its benchmark. UNRESOLVED = STOP, not guess.",
              ""]
     for t in sorted(verdicts):
         v = verdicts[t]
@@ -141,6 +240,8 @@ def main():
     n_er = sum(1 for v in verdicts.values() if v.get("verdict") in ("ERODING", "OVERLAY_DRAG"))
     print(f"Wrote {FACTS} and data/VERDICTS.txt: {len(verdicts)} verdicts, {n_er} eroding, "
           f"{len(special)} special-dividend flags")
+    for msg in map_issues + cov_issues:
+        print(f"  SELF-AUDIT: {msg}")
     return 0
 
 
