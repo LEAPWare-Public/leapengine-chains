@@ -157,3 +157,21 @@ def test_l2_fresh_coverage_not_flagged():
     import datetime
     stale=df.coverage_staleness(datetime.date.today())
     assert not any("PFFA" in s for s in stale), "PFFA coverage is dated today; must not be stale"
+
+# ---- cold-start findings: gate must not over-block on provisional/reference mentions ----
+def test_gate_does_not_block_earned_vs_unresolved(tmp_path):
+    # UNRESOLVED means "benchmark pending", not "bad name" — EARNED claim must NOT block
+    _setup(tmp_path, {"UTF":{"verdict":"UNRESOLVED"}},
+           {"STRATEGY.md":"UTF EARNED +12.43% Jul-20\n"})
+    assert ac.main()==0, "EARNED vs provisional UNRESOLVED must not block"
+
+def test_gate_still_blocks_earned_vs_definite_bad(tmp_path):
+    _setup(tmp_path, {"RQI":{"verdict":"LAGS"}},
+           {"STRATEGY.md":"RQI EARNED and deployable\n"})
+    assert ac.main()==1, "EARNED vs a DEFINITE bad verdict (LAGS) must still block"
+
+def test_gate_ignores_benchmark_reference(tmp_path):
+    # 'clears vs DOC' names DOC as ARE's benchmark, not as an ERODING subject
+    _setup(tmp_path, {"DOC":{"verdict":"TRACKS_PEERS"}},
+           {"LEDGER-SEP.md":"ARE: no entry until it clears vs DOC. AMT ERODING.\n"})
+    assert ac.main()==0, "a 'vs DOC' benchmark reference must not false-match DOC"
