@@ -74,17 +74,28 @@ def a7r_verdict(ticker, Y):
     if ftr is None:
         return {"verdict": "UNRESOLVED", "reason": "fund total return missing"}
     diff = round(ftr - btr, 2)
-    # overlay: destroyed value only if it materially trails its own underlying
-    # peer: company-specific problem only if it materially trails its subsector
+    # RELATIVE test (did the strategy/company add or destroy value vs its baseline)
     if diff >= -3:
-        v = "EARNED" if cls == "overlay" else "TRACKS_PEERS"
+        rel = "EARNED" if cls == "overlay" else "TRACKS_PEERS"
     elif diff >= -10:
-        v = "LAGS"
+        rel = "LAGS"
     else:
-        v = "ERODING" if cls == "peer" else "OVERLAY_DRAG"
-    return {"verdict": v, "class": cls, "benchmark": bench,
+        rel = "ERODING" if cls == "peer" else "OVERLAY_DRAG"
+    # ABSOLUTE test (B-2, CLA Pass B): beating a collapsing benchmark is NOT "earned" for a
+    # retirement account. A materially negative absolute total return is flagged regardless of
+    # how the benchmark did. The relative test alone was the mirror of the Jul-20 zero-baseline bug.
+    abs_flag = None
+    if ftr <= -20:
+        abs_flag = "ABSOLUTE_LOSS_SEVERE"     # >20% down in 12m
+    elif ftr < 0:
+        abs_flag = "ABSOLUTE_LOSS"
+    # a name that beat its benchmark but is still deeply negative is not deployable, whatever rel says
+    deployable = (rel in ("EARNED", "TRACKS_PEERS")) and ftr > 0
+    return {"verdict": rel, "class": cls, "benchmark": bench,
             "fund_tr": ftr, "bench_tr": btr, "diff_pts": diff,
-            "note": "ERODING requires trailing the benchmark by >10 pts (A7-R v3)"}
+            "absolute_flag": abs_flag, "deployable": deployable,
+            "note": "verdict is RELATIVE (vs benchmark); absolute_flag/deployable capture the "
+                    "absolute loss so beating a collapsing benchmark is never mistaken for safe."}
 
 
 def main():

@@ -80,3 +80,54 @@ def test_gate_passes_when_consistent(tmp_path):
     _setup(tmp_path, {"VICI":{"verdict":"ERODING"}},
            {"CLAUDE.md":"VICI is ERODING vs GLPI\n"})
     assert ac.main()==0
+
+# ---- CLA Pass A finding A-1: correction notes must NOT trigger false blocks ----
+def test_gate_exempts_stale_marker_correction_note(tmp_path):
+    _setup(tmp_path, {"BTCI":{"verdict":"EARNED"}},
+           {"STRATEGY.md":"PLAN.md's BTCI BROKEN line is STALE and superseded.\n"})
+    assert ac.main()==0, "a correction note using 'STALE' must not false-block"
+
+def test_gate_exempts_rule_definition_text(tmp_path):
+    _setup(tmp_path, {"AMT":{"verdict":"ERODING"}},
+           {"STRATEGY.md":'NO ERODING VERDICT MAY BE ISSUED WITHOUT A BENCHMARK.\n'})
+    assert ac.main()==0, "rule-definition text naming a verdict word must not false-block"
+
+def test_gate_exempts_refutation(tmp_path):
+    _setup(tmp_path, {"BTCI":{"verdict":"EARNED"}},
+           {"CLAUDE.md":"BTCI is NOT broken - kept, T2 disarmed.\n"})
+    assert ac.main()==0, "a refutation ('NOT broken') must not false-block"
+
+def test_gate_still_blocks_bare_stale_claim(tmp_path):
+    # no marker, no refutation - a genuine live stale claim must STILL block
+    _setup(tmp_path, {"PFFA":{"verdict":"EARNED"}},
+           {"CLAUDE.md":"PFFA yields 9.96% and is UNDEREARNING on the position.\n"})
+    assert ac.main()==1, "a genuine stale claim with no correction marker must block"
+
+# ---- CLA Pass B finding B-2: beating a collapsing benchmark is not "safe" ----
+def test_b2_absolute_loss_flagged_even_when_beating_benchmark():
+    y={"BTCI":Y(total_return_12m_pct=-60),"BITO":Y(total_return_12m_pct=-62)}
+    v=df.a7r_verdict("BTCI",y)
+    assert v["verdict"]=="EARNED"                    # relatively, it beat its underlying
+    assert v["absolute_flag"]=="ABSOLUTE_LOSS_SEVERE" # but absolutely it cratered
+    assert v["deployable"] is False                   # and must not take new money
+
+def test_b2_deployable_requires_positive_absolute_return():
+    y={"SPYI":Y(total_return_12m_pct=17.8),"SPY":Y(total_return_12m_pct=20.3)}
+    v=df.a7r_verdict("SPYI",y)
+    assert v["verdict"]=="EARNED" and v["deployable"] is True
+
+def test_b2_mild_negative_flagged_not_severe():
+    y={"VICI":Y(total_return_12m_pct=-13.59),"GLPI":Y(total_return_12m_pct=2.19)}
+    v=df.a7r_verdict("VICI",y)
+    assert v["absolute_flag"]=="ABSOLUTE_LOSS" and v["deployable"] is False
+
+# ---- CLA final finding B-3: gate must catch FALSE-POSITIVE verdicts (the dangerous direction) ----
+def test_gate_blocks_false_earned_claim(tmp_path):
+    _setup(tmp_path, {"VICI":{"verdict":"ERODING"}},
+           {"CLAUDE.md":"VICI is EARNED and safe to add\n"})
+    assert ac.main()==1, "claiming a bad name is EARNED must block - deploys capital wrongly"
+
+def test_gate_allows_true_earned_claim(tmp_path):
+    _setup(tmp_path, {"SPYI":{"verdict":"EARNED"}},
+           {"CLAUDE.md":"SPYI is EARNED\n"})
+    assert ac.main()==0

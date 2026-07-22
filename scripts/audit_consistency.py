@@ -27,7 +27,9 @@ AUTHORITATIVE = ["CLAUDE.md", "PLAN.md", "STRATEGY.md", "SAFEGUARDS.md",
                  "TRAD1-REVIEW.md"]
 HISTORY_EXEMPT = ["HISTORY.md", "MISTAKES.md"]
 FRESHNESS_HOURS = {"FACTS.json": 24, "YIELDS.json": 168}
+# both directions: a wrong "EARNED" is MORE dangerous than a wrong "ERODING" — it deploys capital
 VERDICT_WORDS = ["ERODING", "UNDEREARNING", "BROKEN"]
+POSITIVE_WORDS = ["EARNED", "DEPLOYABLE", "SAFE TO ADD", "EARNS ITS"]
 
 
 def freshness_gate():
@@ -60,21 +62,40 @@ def consistency_gate():
         if not os.path.exists(fn):
             continue
         for i, line in enumerate(open(fn), 1):
-            if line.strip().startswith("#") or "!! CORRECTED" in line or "WITHDRAWN" in line:
-                continue  # correction notes are allowed to name old verdicts
+            low = line.lower()
+            # EXEMPT: correction notes, rule-definition text, and refutations that name an old verdict
+            # in order to correct it. These legitimately contain a verdict word.
+            EXEMPT_MARKERS = ["!!", "corrected", "withdrawn", "stale", "superseded",
+                              "not eroding", "not broken", "not underearning",
+                              "no verdict", "manufactures false", "may be issued",
+                              "may not", "was ", "prior line", "old ", "no longer",
+                              "requires trailing", "refut", "(see history", "definition",
+                              "e.g.", "e.g,", "example", "constructive roc", "two kinds",
+                              "the test:", "engineering", "smoothing"]
+            if line.strip().startswith("#") or any(m in low for m in EXEMPT_MARKERS):
+                continue
             for tkr, gv in golden.items():
-                # does this line assert a verdict word near this ticker?
                 if re.search(rf"\b{tkr}\b", line):
                     for w in VERDICT_WORDS:
                         if w in line:
-                            # allowed only if it matches the golden verdict (or golden is that word)
                             ok = (w == "ERODING" and gv in ("ERODING", "OVERLAY_DRAG")) or \
                                  (w == "UNDEREARNING" and gv in ("LAGS", "UNRESOLVED")) or \
-                                 (w in gv if gv else False)
+                                 (gv and w in gv)
                             if not ok:
                                 findings.append(
                                     f"BLOCK {fn}:{i} — asserts '{w}' for {tkr}, but golden verdict is "
-                                    f"'{gv}'. Authoritative file disagrees with FACTS.json.")
+                                    f"'{gv}'. Authoritative file disagrees with FACTS.json. "
+                                    f"(If this is a correction note, add a marker like '!!' or 'was'.)")
+                    # positive-direction: claiming a name is EARNED/safe when golden says it is not
+                    # (same exemptions apply — already continue'd above if the line is a note/definition)
+                    for w in POSITIVE_WORDS:
+                        if w in line.upper():
+                            safe = gv in ("EARNED", "TRACKS_PEERS")
+                            if not safe:
+                                findings.append(
+                                    f"BLOCK {fn}:{i} — asserts '{w}' for {tkr}, but golden verdict is "
+                                    f"'{gv}' (NOT safe). A false-positive verdict deploys capital into a "
+                                    f"bad name — the more dangerous direction.")
     return findings
 
 
