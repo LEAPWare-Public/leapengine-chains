@@ -143,7 +143,8 @@ HELD_DEFAULT = {
     "CAIQ":("QQQ","overlay"),
     # CEFs (equity) -> sector proxy
     "UTF":("XLU","overlay"),"UTG":("XLU","overlay"),"ASGI":("VNQ","overlay"),"CEFS":("SPY","overlay"),
-    "RQI":("XLU","overlay"),  # infra/utility CEF, not a REIT — vs utilities sector"CEF":("GLD","overlay"),"EMO":("AMLP","peer"),"PBDC":("BIZD","overlay"),
+    "RQI":("XLU","overlay"),   # infra/utility CEF, not a REIT
+    "CEF":("GLD","overlay"), "EMO":("MLPX","peer"), "PBDC":("BIZD","overlay"),
     # preferred / credit -> coverage class
     "PCN":(None,"coverage"),"PTY":("AGG","coverage_tr"),"PDI":("AGG","coverage_tr"),
     "JBBB":("AGG","coverage_tr"),"PAAA":("AGG","coverage_tr"),
@@ -247,3 +248,7 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
+
+# KNOWN DATA GAP (Jul-20-2026): GLD does not fetch from the free feed in this environment (nor GLDM/IAU/
+# IAUM). GIAX, IGLD, IAUI therefore stay UNRESOLVED — which is the SAFE failure: no gold verdict is
+# asserted without a gold benchmark. Resolve by adding a working gold price source. Tracked in HANDOFF.
